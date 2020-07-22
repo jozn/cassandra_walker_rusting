@@ -3,7 +3,6 @@ package ant
 import (
 	"fmt"
 	"github.com/emicklei/proto"
-	"ms/sun/shared/helper"
 	"os"
 	"strings"
 )
@@ -171,7 +170,7 @@ func xxx() {
 	defer reader.Close()
 	parser := proto.NewParser(reader)
 	def, err := parser.Parse()
-	helper.NoErr(err)
+	noErr(err)
 	messageViews := make([]MessageView, 0)
 	for _, v := range def.Elements {
 		if msg, ok := v.(*proto.Message); ok {
@@ -203,7 +202,7 @@ func xxx() {
 		}
 		//fmt.Println(v)
 	}
-	helper.PertyPrint(messageViews)
-	helper.PertyPrint(def)
+	PertyPrint(messageViews)
+	PertyPrint(def)
 
 }

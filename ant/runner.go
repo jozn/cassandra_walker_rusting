@@ -4,7 +4,6 @@ import (
 	"github.com/emicklei/proto"
 	"github.com/labstack/gommon/log"
 	"io/ioutil"
-	"ms/sun/shared/helper"
 	"os"
 	_ "os"
 	"os/exec"
@@ -63,7 +62,7 @@ func RunV2() {
 	for i, f := range files {
 		protos[i] = f.Name()
 		reader, err := os.Open(path.Join(DIR_PROTOS, f.Name()))
-		helper.NoErr(err)
+		noErr(err)
 		defer reader.Close()
 		parser := proto.NewParser(reader)
 		def, err := parser.Parse()

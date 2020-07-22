@@ -3,17 +3,12 @@ package ant
 import (
 	"crypto/md5"
 	"encoding/binary"
+	"fmt"
+	"github.com/kr/pretty"
 	"log"
-	"ms/sun/shared/helper"
+	"strconv"
 	"strings"
 )
-
-func noErr(err error) {
-	if err != nil {
-		log.Panic(err)
-	}
-}
-
 /////////////// types converters /////////
 
 func pbTypesToGoType(tp string) string {
@@ -129,9 +124,32 @@ func MyHash(string string) int {
 
 func MyHash2(string string) int {
 	s := strings.Split(string, ".")
-	rs := helper.IntToStr((Hash(s[0])%1000)+1) + "00" + helper.IntToStr(Hash(s[1])%100000)
+	rs := IntToStr((Hash(s[0])%1000)+1) + "00" + IntToStr(Hash(s[1])%100000)
 	//fmt.Println("+++++++"+rs)
-	return helper.StrToInt(rs, -1)
+	return StrToInt(rs, -1)
 }
 
-////////////////////////////////////
+//////////////// Helpers ////////////////////
+
+func noErr(err error) {
+	if err != nil {
+		log.Panic(err)
+	}
+}
+
+
+func StrToInt(str string, defualt int) int {
+	r64, err := strconv.ParseInt(str, 10, 64)
+	if err != nil {
+		return defualt
+	}
+	return int(r64)
+}
+
+func IntToStr(num int) string {
+	return strconv.Itoa(num)
+}
+
+func PertyPrint(a interface{}) {
+	fmt.Printf("%# v \n", pretty.Formatter(a))
+}
