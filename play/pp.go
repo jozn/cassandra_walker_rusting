@@ -1,9 +1,9 @@
 package main
 
 import (
+	helper "../ant"
 	"github.com/dsymonds/gotoc/parser"
 	"io/ioutil"
-	"ms/sun/shared/helper"
 	"strings"
 )
 

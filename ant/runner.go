@@ -22,39 +22,7 @@ const REALM = "realm"
 
 const OUTPUT_ANDROID_REALM_DIR_ = `D:/ms/social/app/src/main/java/com/mardomsara/social/models_realm/pb_realm/`
 
-/*func Run() {
-	xxx()
-	files, err := ioutil.ReadDir(DIR_PROTOS)
-	noErr(err)
-	protos := make([]string, len(files))
-	for i, f := range files {
-		protos[i] = f.Name()
-	}
-
-	//ast, err := parser.ParseFiles([]string{"1.proto"}, []string{"./play/"})
-	ast, err := parser.ParseFiles(protos, []string{DIR_PROTOS})
-	noErr(err)
-	gen := &GenOut{
-		Messages: ExtractAllMessagesViews(ast),
-		Services: ExtractAllServicesViews(ast),
-		Enums:    ExtractAllEnumsViews(ast),
-	}
-
-	build(gen)
-
-	/////////// commeant albe ///
-	os.Chdir(`C:/Go/_gopath/src/ms/sun/scripts/`)
-	err = exec.Command(`C:/Go/_gopath/src/ms/sun/scripts/gen_pb.exe`).Run()
-	noErr(err)
-	err = exec.Command("gofmt", "-w", OUTPUT_DIR_GO_X).Run()
-	//noErr(err)
-
-	err = exec.Command("javafmt").Run()
-	////
-}
-*/
 func RunV2() {
-	//xxx()
 	files, err := ioutil.ReadDir(DIR_PROTOS)
 	noErr(err)
 	protos := make([]string, len(files))
@@ -81,23 +49,8 @@ func RunV2() {
 	gen.Realms = GetAllARealmMessageViews_FromComments(gen.Messages)
 
 	print("===========================================")
-	//helper.PertyPrint(gen.Messages)
-	//helper.PertyPrint(prtos)
 
 	build(gen)
 
-	/////////// commeant albe ///
-	/*os.Chdir(`C:/Go/_gopath/src/ms/sun_old/scripts/`)
-	  err = exec.FullMethodName(`C:/Go/_gopath/src/ms/sun_old/scripts/gen_pb.exe`).Run()
-	  noErr(err)
-	  err = exec.FullMethodName("gofmt", "-w", OUTPUT_DIR_GO_X).Run()*/
-	//noErr(err)
-
 	err = exec.Command("javafmt").Run()
-	////
-}
-
-func alaki() {
-	exec.Command(``).Run()
-	os.Chdir(``)
 }

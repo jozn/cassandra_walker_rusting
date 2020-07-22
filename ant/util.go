@@ -9,8 +9,8 @@ import (
 	"strconv"
 	"strings"
 )
-/////////////// types converters /////////
 
+/////////////// types converters /////////
 func pbTypesToGoType(tp string) string {
 	s := tp
 	switch tp {
@@ -93,8 +93,34 @@ func pbTypesToJavaType(tp string) string {
 	return s
 }
 
-/////////////// Hashes /////////////
+//////////////// Helpers ////////////////////
+func NoErr(err error) {
+	noErr(err)
+}
 
+func noErr(err error) {
+	if err != nil {
+		log.Panic(err)
+	}
+}
+
+func StrToInt(str string, defualt int) int {
+	r64, err := strconv.ParseInt(str, 10, 64)
+	if err != nil {
+		return defualt
+	}
+	return int(r64)
+}
+
+func IntToStr(num int) string {
+	return strconv.Itoa(num)
+}
+
+func PertyPrint(a interface{}) {
+	fmt.Printf("%# v \n", pretty.Formatter(a))
+}
+
+/////////////// Hashes /////////////
 func Hash(str string) int {
 	sh1 := md5.Sum([]byte(str))
 	b := sh1[0]
@@ -127,29 +153,4 @@ func MyHash2(string string) int {
 	rs := IntToStr((Hash(s[0])%1000)+1) + "00" + IntToStr(Hash(s[1])%100000)
 	//fmt.Println("+++++++"+rs)
 	return StrToInt(rs, -1)
-}
-
-//////////////// Helpers ////////////////////
-
-func noErr(err error) {
-	if err != nil {
-		log.Panic(err)
-	}
-}
-
-
-func StrToInt(str string, defualt int) int {
-	r64, err := strconv.ParseInt(str, 10, 64)
-	if err != nil {
-		return defualt
-	}
-	return int(r64)
-}
-
-func IntToStr(num int) string {
-	return strconv.Itoa(num)
-}
-
-func PertyPrint(a interface{}) {
-	fmt.Printf("%# v \n", pretty.Formatter(a))
 }
