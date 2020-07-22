@@ -1,44 +1,31 @@
 syntax = "proto3";
-//package proto;
-//import "Request.proto";
-//import "Response.proto";
 
 option java_package = "net.iGap.proto";
 option java_outer_classname = "ProtoChannelCreate";
 
 message ChannelCreate {
-//    Request request = 1;
     string name = 2;
     string description = 3;
-enum Device {
-    UUU = 0;
-}
+    enum Device {
+        None = 0;
+    }
 }
 
-//good to
-//have you
 message ChannelCreateResponse {
-    option java_outer_classname = "java_outer_classname";
-//    Response response = 1;
-   ChannelCreate CCC = 1;
+    ChannelCreate CCC = 1;
     uint64 room_id = 2;
     string invite_link = 3;
-    //option usas = "dusage2";
 }
 
-//yes
-//yes222
 service gg {
-//    option usas = "dusage2";
     rpc GetUser(ChannelCreate) returns (ChannelCreateResponse);
 }
 
 
-enum Corpus {
-    //option usas = "dusage2";
+enum Content {
     UNIVERSAL = 0;
     WEB = 1;
-    IMAGES = 2  [optionsssssssssssssssss = trued  ];
+    IMAGES = 2;
     LOCAL = 3;
     NEWS = 4;
     PRODUCTS = 5;

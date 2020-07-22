@@ -88,7 +88,7 @@ func pbTypesToJavaType(tp string) string {
 	case "string":
 		s = "String"
 	case "bytes":
-		s = "byte[]"//or  "ByteString" -  PB default converts to this
+		s = "byte[]" //or  "ByteString" -  PB default converts to this
 	}
 	return s
 }

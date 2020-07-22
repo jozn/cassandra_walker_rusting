@@ -22,7 +22,6 @@ type MethodView struct {
 }
 
 ////////// Messages /////////
-
 type MessageView struct {
 	Name       string
 	Fields     []FieldView
@@ -44,7 +43,6 @@ type FieldView struct {
 }
 
 ////////// Enums /////////
-
 type EnumView struct {
 	Name    string
 	Fields  []EnumFieldView
@@ -67,7 +65,6 @@ type OptionsView struct {
 
 /////////////////////////////////////////
 ///////////// Extractor /////////////////
-
 type GenOut struct {
 	Services []ServiceView
 	Messages []MessageView

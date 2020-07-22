@@ -1,19 +1,14 @@
 syntax = "proto3";
 
-option toBe_inThis_later = ms_for_thi;
-
-//why we all do this way 
 message SearchRequest {
-	option sds444444444444 = "sd";
- 	string query = 1;
-    int32 page_number = 2 [optionsssssssssssssssss = trued  ];
+ 	  string query = 1;
+    int32 page_number = 2;
     int32 result_per_page = 3;
 }
 
 // enums comment fot this project is great 
 enum forYou {
-	option sds444444444444 = "sd";
-    T = 0  [optionsssssssssssssssss = trued  ];
+    T = 0 ;
     TRRRRR = 1;
     TYYYYY = 2;
     THH = 3;

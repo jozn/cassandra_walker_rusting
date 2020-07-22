@@ -10,8 +10,8 @@ import (
 	"path"
 )
 
-const OUTPUT_DIR_GO_X = `C:/Go/_gopath/src/ms/sun/shared/x/`                                   //"./play/gen_sample_out.go"
-const OUTPUT_DIR_GO_X_CONST = `C:/Go/_gopath/src/ms/sun/shared/x/xconst/`                      //"./play/gen_sample_out.go"
+const OUTPUT_DIR_GO_X = `C:/Go/_gopath/src/ms/sun/shared/x/`                         //"./play/gen_sample_out.go"
+const OUTPUT_DIR_GO_X_CONST = `C:/Go/_gopath/src/ms/sun/shared/x/xconst/`            //"./play/gen_sample_out.go"
 const OUTPUT_ANDROID_PROTO_MOUDLE_DIR = `D:\ms\social\proto\src\main\java\ir\ms\pb\` //`D:/dev_working2/MS_Native/proto/src/main/java/ir/ms/pb/` //"./play/gen_sample_out.go"
 const OUTPUT_ANDROID_APP_DIR = `D:\ms\social\app\src\main\java\ir\ms\pb\`            // `D:/dev_working2/MS_Native/app/src/main/java/ir/ms/pb/`            //"./play/gen_sample_out.go"
 //const TEMPLATES_DIR = "./templates/"                    //relative to main func of parent directory
@@ -22,7 +22,7 @@ const REALM = "realm"
 
 const OUTPUT_ANDROID_REALM_DIR_ = `D:/ms/social/app/src/main/java/com/mardomsara/social/models_realm/pb_realm/`
 
-func RunV2() {
+func Run() {
 	files, err := ioutil.ReadDir(DIR_PROTOS)
 	noErr(err)
 	protos := make([]string, len(files))
@@ -41,9 +41,9 @@ func RunV2() {
 	}
 
 	gen := &GenOut{
-		Messages: ExtractAllMessagesViewsV2(prtos),
-		Services: ExtractAllServicesViewsV2(prtos),
-		Enums:    ExtractAllEnumsViewsV2(prtos),
+		Messages: ExtractAllMessagesViews(prtos),
+		Services: ExtractAllServicesViews(prtos),
+		Enums:    ExtractAllEnumsViews(prtos),
 	}
 	//gen.Realms = GetAllARealmMessageViews(gen.Messages)
 	gen.Realms = GetAllARealmMessageViews_FromComments(gen.Messages)

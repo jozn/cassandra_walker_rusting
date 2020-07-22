@@ -5,5 +5,5 @@ import "./ant"
 //////////////////////////
 
 func main() {
-	ant.RunV2()
+	ant.Run()
 }

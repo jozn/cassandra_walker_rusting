@@ -9,7 +9,7 @@ import (
 )
 
 func build(gen *GenOut) {
-    os.MkdirAll(OUTPUT_DIR_GO_X_CONST,0666)
+	os.MkdirAll(OUTPUT_DIR_GO_X_CONST, 0666)
 
 	OutGoRPCsStr := buildFromTemplate("rpc.tgo", gen)
 	writeOutput("pb__gen_ant.go", OutGoRPCsStr)
@@ -21,11 +21,11 @@ func build(gen *GenOut) {
 	writeOutput("RPC_HANDLERS.java", buildFromTemplate("RPC_HANDLERS.java", gen))
 	writeOutput("PBFlatTypes.java", buildFromTemplate("PBFlatTypes.java", gen))
 	writeOutput("flat.go", buildFromTemplate("flat.tgo", gen))
-    writeOutputConstant("pb.go", buildFromTemplate("xconst.tgo", gen))
+	writeOutputConstant("pb.go", buildFromTemplate("xconst.tgo", gen))
 
-    writeOutput("rpc_client.go", buildFromTemplate("rpc_client.tgo", gen))
+	writeOutput("rpc_client.go", buildFromTemplate("rpc_client.tgo", gen))
 
-    //////////////// For Android /////////////
+	//////////////// For Android /////////////
 	writeOutputAndroidProto("RPC_HANDLERS.java", buildFromTemplate("RPC_HANDLERS.java", gen))
 	writeOutputAndroidProto("PBFlatTypes.java", buildFromTemplate("PBFlatTypes.java", gen))
 	writeOutputAndroidApp("RPC.java", buildFromTemplate("RPC.java", gen))
@@ -61,7 +61,7 @@ func writeOutput(fileName, output string) {
 }
 
 func writeOutputConstant(fileName, output string) {
-    ioutil.WriteFile(OUTPUT_DIR_GO_X_CONST+fileName, []byte(output), os.ModeType)
+	ioutil.WriteFile(OUTPUT_DIR_GO_X_CONST+fileName, []byte(output), os.ModeType)
 }
 
 func writeOutputAndroidProto(fileName, output string) {

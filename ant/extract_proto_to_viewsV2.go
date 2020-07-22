@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func ExtractAllServicesViewsV2(protos []*proto.Proto) []ServiceView {
+func ExtractAllServicesViews(protos []*proto.Proto) []ServiceView {
 	serviceViews := make([]ServiceView, 0)
 
 	for _, pto := range protos {
@@ -43,7 +43,7 @@ func ExtractAllServicesViewsV2(protos []*proto.Proto) []ServiceView {
 	return serviceViews
 }
 
-func ExtractAllMessagesViewsV2(protos []*proto.Proto) []MessageView {
+func ExtractAllMessagesViews(protos []*proto.Proto) []MessageView {
 	messageViews := make([]MessageView, 0)
 
 	for _, pto := range protos {
@@ -79,7 +79,7 @@ func ExtractAllMessagesViewsV2(protos []*proto.Proto) []MessageView {
 	return messageViews
 }
 
-func ExtractAllEnumsViewsV2(protos []*proto.Proto) []EnumView {
+func ExtractAllEnumsViews(protos []*proto.Proto) []EnumView {
 	enumViews := make([]EnumView, 0)
 
 	for _, pto := range protos {
@@ -166,7 +166,7 @@ func GetAllARealmMessageViews_FromComments(msgs []MessageView) (res []MessageVie
 
 func xxx() {
 
-	reader, _ := os.Open(`C:\Go\_gopath\src\ms\ants\play\1.proto`)
+	reader, _ := os.Open(`./play/1.proto`)
 	defer reader.Close()
 	parser := proto.NewParser(reader)
 	def, err := parser.Parse()
