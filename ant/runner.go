@@ -50,7 +50,7 @@ func Run() {
 
 	print("===========================================")
 
-	PertyPrint(genOut)
+	PrettyPrint(genOut)
 
 	buildGo(genOut)
 

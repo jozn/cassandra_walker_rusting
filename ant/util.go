@@ -33,7 +33,6 @@ func pbTypesToGoType(tp string) string {
 		s = "int32"
 	case "sfixed64":
 		s = "int64"
-
 	case "bool":
 		s = "bool"
 	case "string":
@@ -55,7 +54,6 @@ func pbTypesToGoFlatTypes(tp string) string {
 		s = "float64"
 	case "float":
 		s = "float32"
-
 	case "bool":
 		s = "bool"
 	case "string":
@@ -81,7 +79,6 @@ func pbTypesToJavaType(tp string) string {
 		s = "double"
 	case "float":
 		s = "float"
-
 	case "bool":
 		s = "boolean"
 	case "string":
@@ -115,7 +112,6 @@ func pbTypesToRustType(tp string) string {
 		s = "i32"
 	case "sfixed64":
 		s = "i64"
-
 	case "bool":
 		s = "bool"
 	case "string":
@@ -177,14 +173,14 @@ func IntToStr(num int) string {
 	return strconv.Itoa(num)
 }
 
-func PertyPrint(a interface{}) {
-	fmt.Printf("%# v \n", pretty.Formatter(a))
+func PrettyPrint(a interface{}) {
+	fmt.Printf("%#v \n", pretty.Formatter(a))
 }
 
 /////////////// Hashes /////////////
 
-// Produces hash id for servernames in range of [0..2^31) - so Int in Java and most other langs can handle it (no negative number).
-func Hash(str string) int {
+// Produces hash id for rpc service names in range of [0..2^31) - so Int in Java and most other langs can handle it (no negative number).
+func StrToInt32Hash(str string) uint32 {
 	//sh1 := md5.Sum([]byte(str))
 	sh1 := sha512.Sum512([]byte(str))
 	b := sh1[0]
@@ -193,10 +189,5 @@ func Hash(str string) int {
 	bytes := []byte{b, sh1[1], sh1[2], sh1[3]}
 
 	res := binary.BigEndian.Uint32(bytes)
-	//fmt.Println(res, int32(res))
-	return int(res)
-}
-
-func StrToInt32Hash(string string) int32 {
-	return int32(Hash(string))
+	return res
 }

@@ -5,7 +5,7 @@ type ServiceView struct {
 	Name    string
 	Methods []MethodView
 	Comment string
-	Hash    int32
+	Hash    uint32
 	Options []OptionsView
 }
 
@@ -15,7 +15,7 @@ type MethodView struct {
 	GoInTypeName      string
 	OutTypeName       string
 	GoOutTypeName     string
-	Hash              int32
+	Hash              uint32
 	Options           []OptionsView
 	FullMethodName    string // RPC_Other.Echo
 	ParentServiceName string // RPC_Other
