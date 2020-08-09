@@ -7,7 +7,6 @@ import (
 	"github.com/kr/pretty"
 	"log"
 	"strconv"
-	"strings"
 )
 
 /////////////// types converters /////////
@@ -200,21 +199,4 @@ func Hash(str string) int {
 
 func StrToInt32Hash(string string) int32 {
 	return int32(Hash(string))
-}
-
-func MyHash(string string) int {
-	h := 15485862
-	a := 7
-
-	for i := 0; i < len(string); i++ {
-		h = ((h * a) + int(int8(string[0]))) / 3
-	}
-	return h
-}
-
-func MyHash2(string string) int {
-	s := strings.Split(string, ".")
-	rs := IntToStr((Hash(s[0])%1000)+1) + "00" + IntToStr(Hash(s[1])%100000)
-	//fmt.Println("+++++++"+rs)
-	return StrToInt(rs, -1)
 }
