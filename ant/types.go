@@ -38,6 +38,7 @@ type FieldView struct {
 	GoType        string
 	GoFlatType    string
 	JavaType      string
+	RustType      string
 	Options       []OptionsView
 	RealmTypeName string
 }

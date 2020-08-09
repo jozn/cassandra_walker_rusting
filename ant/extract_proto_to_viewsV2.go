@@ -68,6 +68,7 @@ func ExtractAllMessagesViews(protos []*proto.Proto) []MessageView {
 							GoType:        pbTypesToGoType(field.Type),
 							GoFlatType:    pbTypesToGoFlatTypes(field.Type),
 							JavaType:      pbTypesToJavaType(field.Type),
+							RustType:      pbTypesToRustType(field.Type),
 							Options:       protoOptionsToOptionsView(field.Options),
 							RealmTypeName: pbToRealmName(pbTypesToJavaType(field.Type)),
 						}

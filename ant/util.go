@@ -93,6 +93,40 @@ func pbTypesToJavaType(tp string) string {
 	return s
 }
 
+func pbTypesToRustType(tp string) string {
+	s := tp
+	switch tp {
+	case "int64", "sint64":
+		s = "i64"
+	case "double":
+		s = "f64"
+	case "float":
+		s = "f32"
+	case "int32", "sint32":
+		s = "i32"
+	case "uint32":
+		s = "u32"
+	case "uint64":
+		s = "u64"
+	case "fixed32":
+		s = "u32"
+	case "fixed64":
+		s = "u64"
+	case "sfixed32":
+		s = "i32"
+	case "sfixed64":
+		s = "i64"
+
+	case "bool":
+		s = "bool"
+	case "string":
+		s = "String"
+	case "bytes":
+		s = "Vec<u8>"
+	}
+	return s
+}
+
 //////////////// Helpers ////////////////////
 func NoErr(err error) {
 	noErr(err)
