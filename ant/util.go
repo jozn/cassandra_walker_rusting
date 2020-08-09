@@ -1,7 +1,7 @@
 package ant
 
 import (
-	"crypto/md5"
+	"crypto/sha512"
 	"encoding/binary"
 	"fmt"
 	"github.com/kr/pretty"
@@ -121,12 +121,14 @@ func PertyPrint(a interface{}) {
 }
 
 /////////////// Hashes /////////////
+
+// Produces hash id for servernames in range of [0..2^31) - so Int in Java and most other langs can handle it (no negative number).
 func Hash(str string) int {
-	sh1 := md5.Sum([]byte(str))
+	//sh1 := md5.Sum([]byte(str))
+	sh1 := sha512.Sum512([]byte(str))
 	b := sh1[0]
-	//fmt.Println(b)
+	// Avoid negative numbers
 	b = b >> 1
-	//fmt.Println(b)
 	bytes := []byte{b, sh1[1], sh1[2], sh1[3]}
 
 	res := binary.BigEndian.Uint32(bytes)
@@ -134,8 +136,8 @@ func Hash(str string) int {
 	return int(res)
 }
 
-func Hash32(string string) int32 {
-	return int32(Hash(string) % 10000)
+func StrToInt32Hash(string string) int32 {
+	return int32(Hash(string))
 }
 
 func MyHash(string string) int {

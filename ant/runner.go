@@ -10,13 +10,13 @@ import (
 	"path"
 )
 
-const OUTPUT_DIR_GO_X = `C:/Go/_gopath/src/ms/sun/shared/x/`                         //"./play/gen_sample_out.go"
-const OUTPUT_DIR_GO_X_CONST = `C:/Go/_gopath/src/ms/sun/shared/x/xconst/`            //"./play/gen_sample_out.go"
-const OUTPUT_ANDROID_PROTO_MOUDLE_DIR = `D:\ms\social\proto\src\main\java\ir\ms\pb\` //`D:/dev_working2/MS_Native/proto/src/main/java/ir/ms/pb/` //"./play/gen_sample_out.go"
-const OUTPUT_ANDROID_APP_DIR = `D:\ms\social\app\src\main\java\ir\ms\pb\`            // `D:/dev_working2/MS_Native/app/src/main/java/ir/ms/pb/`            //"./play/gen_sample_out.go"
-//const TEMPLATES_DIR = "./templates/"                    //relative to main func of parent directory
-const TEMPLATES_DIR = `C:/Go/_gopath/src/ms/pb_walker/templates/` //relative to main func of parent directory
-const DIR_PROTOS = `C:/Go/_gopath/src/ms/sun/shared/proto`
+const OUTPUT_DIR_GO_X_CONST = `/home/hamid/life/_active/backbone/src/x/xconst/`
+const OUTPUT_ANDROID_PROTO_MOUDLE_DIR = `/home/hamid/life/_active/backbone/src/x/pb/`
+const OUTPUT_ANDROID_APP_DIR = `/home/hamid/life/_active/backbone/src/x/android/`
+const OUTPUT_DIR_GO_X = `/home/hamid/life/_active/backbone/src/x/go/`
+const OUTPUT_DIR_RUST_X = `/home/hamid/life/_active/backbone/src/x/`
+const TEMPLATES_DIR = `/home/hamid/life/_active/pb_walker/templates/`
+const DIR_PROTOS = `/home/hamid/life/_active/pb_walker/play/pb/`
 
 const REALM = "realm"
 
@@ -25,32 +25,34 @@ const OUTPUT_ANDROID_REALM_DIR_ = `D:/ms/social/app/src/main/java/com/mardomsara
 func Run() {
 	files, err := ioutil.ReadDir(DIR_PROTOS)
 	noErr(err)
-	protos := make([]string, len(files))
+	filesName := make([]string, len(files))
 	var prtos []*proto.Proto
-	for i, f := range files {
-		protos[i] = f.Name()
-		reader, err := os.Open(path.Join(DIR_PROTOS, f.Name()))
+	for i, pbFile := range files {
+		filesName[i] = pbFile.Name()
+		pbReader, err := os.Open(path.Join(DIR_PROTOS, pbFile.Name()))
 		noErr(err)
-		defer reader.Close()
-		parser := proto.NewParser(reader)
-		def, err := parser.Parse()
+		defer pbReader.Close()
+		parser := proto.NewParser(pbReader)
+		pbParesed, err := parser.Parse()
 		if err != nil {
-			log.Panic("error parsing proto: ", f.Name(), " ", err, "/n")
+			log.Panic("error parsing proto: ", pbFile.Name(), " ", err, "/n")
 		}
-		prtos = append(prtos, def)
+		prtos = append(prtos, pbParesed)
 	}
 
-	gen := &GenOut{
+	genOut := &GenOut{
 		Messages: ExtractAllMessagesViews(prtos),
 		Services: ExtractAllServicesViews(prtos),
 		Enums:    ExtractAllEnumsViews(prtos),
 	}
-	//gen.Realms = GetAllARealmMessageViews(gen.Messages)
-	gen.Realms = GetAllARealmMessageViews_FromComments(gen.Messages)
+	//genOut.Realms = GetAllARealmMessageViews(genOut.Messages)
+	genOut.Realms = GetAllARealmMessageViews_FromComments(genOut.Messages)
 
 	print("===========================================")
 
-	build(gen)
+	PertyPrint(genOut)
+
+	buildGo(genOut)
 
 	err = exec.Command("javafmt").Run()
 }
