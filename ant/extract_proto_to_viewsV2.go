@@ -1,9 +1,7 @@
 package ant
 
 import (
-	"fmt"
 	"github.com/emicklei/proto"
-	"os"
 	"strings"
 )
 
@@ -167,47 +165,4 @@ func GetAllARealmMessageViews_FromComments(msgs []MessageView) (res []MessageVie
 		}
 	}
 	return
-}
-
-func xxx() {
-
-	reader, _ := os.Open(`./play/1.proto`)
-	defer reader.Close()
-	parser := proto.NewParser(reader)
-	def, err := parser.Parse()
-	noErr(err)
-	messageViews := make([]MessageView, 0)
-	for _, v := range def.Elements {
-		if msg, ok := v.(*proto.Message); ok {
-			fmt.Println(msg)
-			msgView := MessageView{
-				Name:    msg.Name,
-				Comment: "ccc",
-			}
-
-			for _, f2 := range msg.Elements {
-				if f, ok := f2.(*proto.NormalField); ok {
-					mv := FieldView{
-						FieldName:  f.Name,
-						TypeName:   f.Type,
-						Repeated:   f.Repeated,
-						TagNumber:  f.Sequence,
-						GoType:     pbTypesToGoType(f.Type),
-						GoFlatType: pbTypesToGoFlatTypes(f.Type),
-						JavaType:   pbTypesToJavaType(f.Type),
-					}
-					msgView.Fields = append(msgView.Fields, mv)
-				}
-
-			}
-			messageViews = append(messageViews, msgView)
-			//if msg, ok := v.(*proto.Message); ok {
-			//	fmt.Println(msg)
-			//}
-		}
-		//fmt.Println(v)
-	}
-	PertyPrint(messageViews)
-	PertyPrint(def)
-
 }
