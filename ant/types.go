@@ -35,6 +35,7 @@ type FieldView struct {
 	TypeName      string
 	Repeated      bool
 	TagNumber     int
+	isPrimitive   bool // is ? numbers, bool, string, bytes or refrence to other custom types
 	GoType        string
 	GoFlatType    string
 	JavaType      string

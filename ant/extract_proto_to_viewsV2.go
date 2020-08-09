@@ -64,6 +64,7 @@ func ExtractAllMessagesViews(protos []*proto.Proto) []MessageView {
 							Repeated:      field.Repeated,
 							TagNumber:     field.Sequence,
 							GoType:        pbTypesToGoType(field.Type),
+							isPrimitive:   pbTypesIsPrimitive(field.Type),
 							GoFlatType:    pbTypesToGoFlatTypes(field.Type),
 							JavaType:      pbTypesToJavaType(field.Type),
 							RustType:      pbTypesToRustType(field.Type),
