@@ -21,7 +21,7 @@ func ExtractAllServicesViews(protos []*proto.Proto) []ServiceView {
 				}
 
 				// Each rpc fun
-				for _, element:= range pbService.Elements {
+				for _, element := range pbService.Elements {
 					if m, ok := element.(*proto.RPC); ok {
 						mv := MethodView{
 							MethodName:        m.Name,

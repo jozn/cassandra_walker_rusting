@@ -129,24 +129,24 @@ func pbTypesToRustType(tp string) string {
 
 func pbTypesIsPrimitive(tp string) bool {
 	arr := []string{
-	"int64",
-	"sint64",
-	"double",
-	"float",
-	"int32",
-	"sint32",
-	"uint32",
-	"uint64",
-	"fixed32",
-	"fixed64",
-	"sfixed32",
-	"sfixed64",
-	"bool",
-	"string",
-	"bytes",
+		"int64",
+		"sint64",
+		"double",
+		"float",
+		"int32",
+		"sint32",
+		"uint32",
+		"uint64",
+		"fixed32",
+		"fixed64",
+		"sfixed32",
+		"sfixed64",
+		"bool",
+		"string",
+		"bytes",
 	}
 
-	for i:=0 ; i< len(arr); i++{
+	for i := 0; i < len(arr); i++ {
 		if tp == arr[i] {
 			return true
 		}

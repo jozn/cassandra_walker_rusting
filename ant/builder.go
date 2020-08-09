@@ -32,7 +32,6 @@ func buildGo(gen *GenOut) {
 	os.MkdirAll(OUTPUT_ANDROID_APP_DIR, os.ModePerm)
 	os.MkdirAll(OUTPUT_ANDROID_PROTO_MOUDLE_DIR, os.ModePerm)
 
-
 	OutGoRPCsStr := buildFromTemplate("rpc.tgo", gen)
 	writeOutputGo("rpc.go", OutGoRPCsStr)
 
@@ -67,7 +66,6 @@ func writeOutputConstantGo(fileName, output string) {
 func build_old(gen *GenOut) {
 	os.MkdirAll(OUTPUT_DIR_GO_X_CONST, os.ModePerm)
 	os.MkdirAll(OUTPUT_ANDROID_REALM_DIR_, os.ModePerm)
-
 
 	OutGoRPCsStr := buildFromTemplate("rpc.tgo", gen)
 	writeOutput("pb__gen_ant.go", OutGoRPCsStr)
