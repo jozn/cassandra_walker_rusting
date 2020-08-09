@@ -1,0 +1,89 @@
+syntax = "proto3";
+
+option java_package = "ir.ms.pb";
+//option java_outer_classname = "PB2";
+option java_multiple_files = true;
+option optimize_for = LITE_RUNTIME; //CODE_SIZE;
+
+option go_package = "x";
+
+import "enum.proto";
+import "views.proto";
+
+message SendConfirmCodeParam {
+    string Hash = 1;
+    string Phone = 2; // 98... 989015132328
+    string CountryCode = 3;
+    bool Resend = 4;
+}
+
+enum SendConfirmCodeTypeEnum {
+    SEND_CODE_OK = 0;
+    SEND_CODE_EMAIL = 1;
+}
+
+message SendConfirmCodeResponse {
+    bool Done =1;
+    string ErrorMessage =2;
+    bool JustEmailRegister = 3 ;
+    repeated string SmsNumbers = 4;
+    bool IsLogin = 5;
+}
+
+message ConfirmCodeParam {
+    string Hash = 1;
+    string Phone = 2; // 98... 989015132328
+    int32 Code = 3; //4 digit 4215
+}
+
+message ConfirmCodeResponse {
+    bool Done =1;
+    string ErrorMessage = 2;
+    SelfUserView SelfUserView = 3; //if it is login
+}
+
+message SingUpParam {
+    string Hash = 1;
+    string FirstName = 2;
+    string LastName = 3;
+    string UserName = 4;
+    string Phone = 5;
+    string Email = 6;
+}
+
+message SingUpResponse {
+    bool Done =1;
+    string ErrorMessage = 2;
+    SelfUserView SelfUserView = 3;
+}
+
+message SingInParam {
+    string UserNamePhoneEmail = 4; 
+    string Password = 5; // 98... 989015132328
+}
+
+message SingInResponse {
+   bool Done =1;
+   string ErrorMessage = 2;
+   SelfUserView SelfUserView = 3;
+}
+
+message LogOutParam {
+   
+}
+
+message LogOutResponse {
+    bool Done =1;
+    string ErrorMessage =2;
+}
+
+
+service RPC_Auth {
+//    rpc CheckPhone (UserParam_CheckUserName2) returns (UserResponse_CheckUserName2);
+    rpc SendConfirmCode (SendConfirmCodeParam) returns (SendConfirmCodeResponse);
+    rpc ConfirmCode (ConfirmCodeParam) returns (ConfirmCodeResponse);
+    rpc SingUp (SingUpParam) returns (SingUpResponse);
+    rpc SingIn (SingInParam) returns (SingInResponse);
+    rpc LogOut (LogOutParam) returns (LogOutResponse);
+}
+

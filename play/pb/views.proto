@@ -1,0 +1,286 @@
+syntax = "proto3";
+
+option java_package = "ir.ms.pb";
+//option java_outer_classname = "PB2";
+option java_multiple_files = true;
+option optimize_for = LITE_RUNTIME; //CODE_SIZE;
+
+option go_package = "x";
+
+import "enum.proto";
+
+message MediaView {
+
+}
+
+message ActionView {
+    int64 ActionId = 1;
+    int32 ActorUserId = 2;
+    int32 ActionTypeEnum = 3;
+    int32 PeerUserId = 4;
+    int64 PostId = 5;
+    int64 CommentId = 6;
+    int64 Murmur64Hash = 7;
+    int32 CreatedTime = 8;
+
+    UserView ActorUserView = 100;
+    PostView PostView   = 101;
+    CommentView CommentView = 102;
+    UserView FollowedUserView = 103;
+    UserView ContentOwenerUserView = 104;
+}
+
+message NotifyView {
+    int64 NotifyId = 1;
+    int32 ForUserId = 2;
+    int32 ActorUserId = 3;
+    int32 NotiyTypeEnum = 4;
+    int64 PostId = 5;
+    int64 CommentId = 6;
+    int32 PeerUserId = 7;
+    int64 Murmur64Hash = 8;
+    int32 SeenStatus = 9;
+    int32 CreatedTime = 10;
+
+    UserView ActorUserView = 100;
+    PostView PostView = 101;
+    CommentView CommentView = 102;
+}
+
+message CommentView {
+    int64 CommentId = 1;
+    int32 UserId = 2;
+    int64 PostId = 3;
+    string Text = 4;
+    int32 LikesCount = 5;
+    int32 CreatedTime = 6;
+
+    UserView SenderUserView = 15;
+}
+
+
+message PostView {
+    int64 PostId = 1;
+    int32 UserId = 2;
+    PostTypeEnum PostTypeEnum = 3;
+    string Text = 4;
+    string RichText = 5;
+    int32 MediaCount = 6;
+    int32 SharedTo = 7;
+    int32 DisableComment = 8;
+    int32 HasTag = 9;
+    int32 CommentsCount = 10;
+    int32 LikesCount = 11;
+    int32 ViewsCount = 12;
+    int32 EditedTime = 13;
+    int32 CreatedTime = 14;
+    int64 ReSharedPostId = 15;
+
+    //With me
+    bool DidILiked = 50;
+    bool DidIReShared = 51;
+
+    UserView SenderUserView = 100;
+    UserView ReSharedUserView = 101;
+    MediaView MediaView = 102;
+    repeated MediaView MediaViewList = 103;
+}
+
+message ChatView {
+    int64 ChatId = 1;
+    string ChatKey = 2;
+    string RoomKey = 3;
+    int32 RoomType = 4;
+    int32 UserId = 5;
+    int32 PeerUserId = 6;
+    int64 GroupId = 7;
+    int64 HashTagId = 8;
+    int32 StartedByMe = 9;
+    string Title = 10;
+    int64 PinTime = 11;
+    int64 FromMsgId = 12;
+    int32 Seq = 13;
+    int64 LastMsgId = 14;
+    int32 LastMsgStatus = 15;
+    int32 SeenSeq = 16;
+    int64 SeenMsgId = 17;
+    int32 Left = 18;
+    int32 Creator = 19;
+    int32 Kicked = 20;
+    int32 Admin = 21;
+    int32 Deactivated = 22;
+    int32 VersionTime = 23;
+    int32 SortTime = 24;
+    int32 CreatedTime = 25;
+    string DraftText = 26;
+    int64 DratReplyToMsgId = 27;
+    int32 IsMute = 28;
+
+    UserView UserView = 100;
+    GroupView GroupView = 101;
+    //seeting, notification, group, tag
+    MessageView FirstUnreadMessage = 200;
+    MessageView LastMessage = 201;
+}
+
+message GroupView {
+    int64 GroupId = 1;
+    string GroupKey = 2;
+    string GroupName = 3;
+    string UserName = 4;
+    int32 IsSuperGroup = 5;
+    int64 HashTagId = 6;
+    int32 CreatorUserId = 7;
+    int32 GroupPrivacy = 8;
+    int32 HistoryViewAble = 9;
+    int64 Seq = 10;
+    int64 LastMsgId = 11;
+    int64 PinedMsgId = 12;
+    int64 AvatarRefId = 13;
+    int32 AvatarCount = 14;
+    string About = 15;
+    string InviteLink = 16;
+    int32 MembersCount = 17;
+    int32 SortTime = 18;
+    int32 CreatedTime = 19;
+}
+
+message GroupMemberView {
+    int64 OrderId = 1;
+    int64 GroupId = 2;
+    int32 UserId = 3;
+    int32 ByUserId = 4;
+    int32 GroupRole = 5;
+    int32 CreatedTime = 6;
+}
+
+message MessageView {
+    string RoomKey = 1;
+    int64 MessageId = 2;
+    int32 UserId = 3;
+    int64 FileRefId = 4;
+    int32 MessageType = 5;
+    string Text = 6;
+    int32 Hiden = 7;
+    int32 Seq = 8;
+    int64 ForwardedMsgId = 9;
+    int64 PostId = 10;
+    int64 StickerId = 11;
+    int32 CreatedTime = 12;
+    int32 DeliveredTime = 13;
+    int32 SeenTime = 14;
+    int32 DeliviryStatus = 15;
+    int64 ReplyToMessageId = 16;
+    int64 ViewsCount = 17;
+    int32 EditTime = 18;
+    int32 Ttl = 19;
+
+    FileRedView FileRedView = 50;
+}
+
+message FileRedView {
+    int64 FileRefId = 1;
+    int64 UserId = 2;
+    string Name = 3;
+    int32 Width = 4;
+    int32 Height = 5;
+    int32 Duration = 6;
+    string Extension = 7;
+
+    string UrlSource = 8;
+}
+
+message UserView {
+    int32 UserId = 1;
+    string UserName = 2;
+    string FirstName = 4;
+    string LastName = 5;
+    int64 AvatarRefId = 8;
+    int32 ProfilePrivacy = 9;
+    int64 Phone = 10;
+    string About = 11;
+    //counters 100 - 200
+    int32 FollowersCount = 100;
+    int32 FollowingCount = 101;
+    int32 PostsCount = 102;
+    int32 MediaCount = 103;
+
+    //last activities
+    UserOnlineStatusEnum UserOnlineStatusEnum = 200;
+    int32 LastActiveTime = 201;
+    string LastActiveTimeShow = 202;
+
+    //with me
+    FollowingEnum MyFollwing = 300;
+}
+
+message SettingNotificationView {
+
+}
+
+message AppConfig {
+    bool DeprecatedClient = 1;
+    bool HasNewUpdate  = 2;
+
+}
+
+message UserProfileView {
+
+}
+
+message UserViewRowify {
+    int64 Id = 1;
+    int32 CreatedTime = 2;
+    UserView UserView = 10;
+}
+
+message PostViewRowify {
+    int64 Id = 1;
+    PostView PostView = 10;
+}
+
+//////////// Tags /////////////
+message TagView {
+    int64 TagId = 1;
+    string Name = 2;
+    int32 Count = 3;
+    int32 TagStatusEnum = 4;
+    int32 CreatedTime = 5;
+}
+
+message TopTagWithSamplePosts {
+    TagView TagView = 1;
+    repeated PostView PostViewList = 2;
+}
+
+message SelfUserView {
+    //1-30 basic user table views
+    UserView UserView = 1;
+
+    //30-50 privacy
+    int32 ProfilePrivacy = 30;
+    int32 OnlinePrivacy = 32;
+    int32 CallPrivacy = 33;
+    int32 AddToGroupPrivacy = 34;
+    int32 SeenMessagePrivacy = 35;
+
+    // 100 other views
+    SettingNotificationView SettingNotification = 100;
+   // settings , notifactions settings,... 
+    //privacy 
+    
+}
+
+
+message Error {
+    ServerErrors Error = 1;
+    bool ShowError = 2;
+     string ErrorMessage = 3;
+}
+
+enum ServerErrors {
+    UNKNOWN_ERR = 0;
+    ERR_CLIENT_IS_DEPRECATED = 1;
+    ERR_SERVER_UPGRADING = 2;
+    
+}

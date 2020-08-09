@@ -1,0 +1,148 @@
+syntax = "proto3";
+
+option java_package = "ir.ms.pb";
+//option java_outer_classname = "PB2";
+option java_multiple_files = true;
+option optimize_for = LITE_RUNTIME; //CODE_SIZE;
+
+option go_package = "x";
+
+//dep
+enum MediaTypeEnum {
+    MEDIA_IMAGE = 0;
+    MEDIA_VIDEO = 1;
+}
+
+enum FollowingEnum {
+    FOLLOWING_NONE = 0;
+    FOLLOWING = 1;
+    REQUESTED = 2;
+    BLOCKED = 3;
+}
+
+enum UserTypeEnum {
+    USER = 0;
+    CHANNEL = 1;
+}
+
+enum UserLevelEnum{
+    LEVEL_NORMAL = 0;
+    APP_ADMIN = 1;
+    SUSPONDED = 2;
+    DELETED_BY_OWENER = 3;
+    DELETED_IRAN = 4;
+    SUSPONDED_IRAN = 5;
+}
+
+enum GeneralPrivacyEnum{
+    UNKNOWN_GENERAL_PRIVACY = 0;
+    ALL_PEOPLE_PRIVACY = 1;
+    NOBODY_PRIVACY = 2;
+    CONTACTS_ONLY_PRIVACY = 3;
+    FOLLOWED_ONLY_PRIVACY = 4;
+    CONTACTS_AND_FOLLOWD_PRIVACY = 5;
+}
+
+//DEP
+enum UserOnlinePrivacyEnum{
+    E4 = 0;
+}
+
+enum UserOnlineStatusEnum{
+    EXACTLY = 0;
+    ONLINE = 1;
+    CONNECTED = 2 ;
+    FEW_DAYS_AGO = 3 ;
+    RECENTLY = 4;
+    LAST_WEEK = 5;
+    LAST_MONTH = 6;
+    LONG_TIME_AGO = 7;
+    HIDE = 8;
+}
+
+enum PostTypeEnum{
+    POST_Type_Unknown = 0;
+    POST_TEXT = 1;
+    POST_PHOTO = 2;
+    POST_VIDEO = 3;
+    POST_GIF = 4;
+    POST_AUDIO = 5;
+    POST_FILE = 7;
+    POST_POLL = 8;
+
+    POST_MEDIA = 100; // photo, video, gif
+}
+
+enum CategoryEnum{
+    Category_RESHARED = 0;
+    /*POST_TEXT = 1;
+    POST_PHOTO = 2;
+    POST_VIDEO = 3;
+    POST_GIFS = 4;
+    POST_AUDIO = 5;
+    POST_GIF = 6;
+    POST_FILE = 7;
+    POST_POLL = 8;*/
+}
+
+enum PostCategoryEnum{
+    PostCat_Text = 0;
+    PostCat_Media = 1;
+    PostCat_File = 2;
+}
+
+enum NotifyEnum{
+    NOTIFY_POST_LIKED = 0;
+    NOTIFY_POST_COMMENTED = 1;
+    NOTIFY_FOLLOWED_YOU = 2;
+}
+
+enum ActionEnum{
+    ACTION_POST_LIKED = 0;
+    ACTION_POST_COMMENTED = 1;
+    ACTION_FOLLOWED_USER = 2;
+}
+
+enum ProfilePrivacyLevelEnum {
+    NONE = 0;
+}
+
+// chat
+
+enum RoomTypeEnum {
+    UNKNOWN_ROOM_TYPE = 0;
+    DIRECT = 1;
+    GROUP = 2;
+    //    CHANNEL = 3;
+    BROADCAST = 3;
+    //    BULK = 3;
+}
+
+enum RoomActionDoingEnum {
+    UNKNOWN_ROOM_ACTION_DOING = 0;
+    CANCEL = 1;
+    TYPING = 2;
+    SENDING_IMAGE = 3;
+    CAPTURING_IMAGE = 4;
+    SENDING_VIDEO = 5;
+    CAPTURING_VIDEO = 6;
+    SENDING_AUDIO = 7;
+    RECORDING_VOICE = 8;
+    SENDING_VOICE = 9;
+    SENDING_DOCUMENT = 11;
+    SENDING_GIF = 12;
+    SENDING_FILE = 13;
+    SENDING_LOCATION = 14;
+    CHOOSING_CONTACT = 15;
+    PAINTING = 16;
+}
+
+enum RoomMessageDeliviryStatusEnum {
+    UNKNOWN_MESSAGE_DELIVIRY = 0;
+    NEED_TO_SINK = 1;
+    FAILED = 2;
+    SENDING = 3;
+    SENT = 4;
+    DELIVERED = 5;
+    SEEN = 6;
+}
