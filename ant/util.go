@@ -174,7 +174,7 @@ func IntToStr(num int) string {
 }
 
 func PrettyPrint(a interface{}) {
-	fmt.Printf("%#v \n", pretty.Formatter(a))
+	fmt.Printf("%# v \n", pretty.Formatter(a))
 }
 
 /////////////// Hashes /////////////
@@ -189,5 +189,5 @@ func StrToInt32Hash(str string) uint32 {
 	bytes := []byte{b, sh1[1], sh1[2], sh1[3]}
 
 	res := binary.BigEndian.Uint32(bytes)
-	return res
+	return uint32(res)
 }

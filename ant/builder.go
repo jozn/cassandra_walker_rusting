@@ -9,19 +9,9 @@ import (
 )
 
 func buildRust(gen *GenOut) {
-	os.MkdirAll(OUTPUT_DIR_GO_X, os.ModePerm)
+	os.MkdirAll(OUTPUT_DIR_RUST_X, os.ModePerm)
 
-	OutGoRPCsStr := buildFromTemplate("rpc.tgo", gen)
-	writeOutputGo("rpc.go", OutGoRPCsStr)
-
-	OutGoRPCsEmptyStr := buildFromTemplate("rpc_empty_imple.tgo", gen)
-	writeOutputGo("empty.go", OutGoRPCsEmptyStr)
-	writeOutputGo("pb__gen_enum.proto", buildFromTemplate("enums.proto", gen))
-	writeOutputGo("RPC_HANDLERS.java", buildFromTemplate("RPC_HANDLERS.java", gen))
-	writeOutputGo("PBFlatTypes.java", buildFromTemplate("PBFlatTypes.java", gen))
-	writeOutputGo("flat.go", buildFromTemplate("flat.tgo", gen))
-	writeOutputConstantGo("pb.go", buildFromTemplate("xconst.tgo", gen))
-	writeOutputGo("rpc_client.go", buildFromTemplate("rpc_client.tgo", gen))
+	writeOutputRust("rpc.rs", buildFromTemplate("rpc.rs", gen))
 
 }
 
@@ -48,10 +38,6 @@ func buildGo(gen *GenOut) {
 
 }
 
-func writeOutputRust(fileName, output string) {
-	ioutil.WriteFile(OUTPUT_DIR_GO_X+fileName, []byte(output), os.ModePerm)
-}
-
 func writeOutputGo(fileName, output string) {
 	err := ioutil.WriteFile(OUTPUT_DIR_GO_X+fileName, []byte(output), os.ModePerm)
 	noErr(err)
@@ -61,6 +47,10 @@ func writeOutputConstantGo(fileName, output string) {
 	ioutil.WriteFile(OUTPUT_DIR_GO_X_CONST+fileName, []byte(output), os.ModePerm)
 }
 
+func writeOutputRust(fileName, output string) {
+	err := ioutil.WriteFile(OUTPUT_DIR_RUST_X+fileName, []byte(output), os.ModePerm)
+	noErr(err)
+}
 ///////////////////// Archives /////////////////
 
 func build_old(gen *GenOut) {

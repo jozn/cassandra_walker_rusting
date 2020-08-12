@@ -14,7 +14,7 @@ const OUTPUT_DIR_GO_X_CONST = `/home/hamid/life/_active/backbone/src/x/xconst/`
 const OUTPUT_ANDROID_PROTO_MOUDLE_DIR = `/home/hamid/life/_active/backbone/src/x/pb/`
 const OUTPUT_ANDROID_APP_DIR = `/home/hamid/life/_active/backbone/src/x/android/`
 const OUTPUT_DIR_GO_X = `/home/hamid/life/_active/backbone/src/x/go/`
-const OUTPUT_DIR_RUST_X = `/home/hamid/life/_active/backbone/src/x/`
+const OUTPUT_DIR_RUST_X = `/home/hamid/life/_active/backbone/src/`
 const TEMPLATES_DIR = `/home/hamid/life/_active/pb_walker/templates/`
 const DIR_PROTOS = `/home/hamid/life/_active/pb_walker/play/pb/`
 
@@ -52,7 +52,9 @@ func Run() {
 
 	PrettyPrint(genOut)
 
-	buildGo(genOut)
+	//buildGo(genOut)
+	buildRust(genOut)
+
 
 	err = exec.Command("javafmt").Run()
 }
