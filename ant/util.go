@@ -178,3 +178,15 @@ func StrToInt32Hash(str string) uint32 {
 	res := binary.BigEndian.Uint32(bytes)
 	return uint32(res)
 }
+
+var hashMp = make(map[uint32]string)
+
+func uniqueMethodHash(method string) uint32 {
+	var hash = StrToInt32Hash(method)
+	otherMethod,ok := hashMp[hash]
+	if ok {
+		log.Fatalf("Methods hash collides, methods: (%s) , (%s) -- hash: (%d)", method, otherMethod, hash)
+	}
+	hashMp[hash] = method
+	return hash
+}

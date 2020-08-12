@@ -16,7 +16,7 @@ func ExtractAllServicesViews(protos []*proto.Proto) []ServiceView {
 				serView := ServiceView{
 					Name:    pbService.Name,
 					Comment: extractCommentV2(pbService.Comment),
-					Hash:    StrToInt32Hash(pbService.Name),
+					Hash:    uniqueMethodHash(pbService.Name), // it's ok to use method hash uniqueness
 					Options: extractElementOptions(pbService.Elements),
 				}
 
@@ -29,7 +29,7 @@ func ExtractAllServicesViews(protos []*proto.Proto) []ServiceView {
 							GoInTypeName:      strings.Replace(m.RequestType, ".", "_", -1), // For nested messages replace . with _
 							OutTypeName:       m.ReturnsType,
 							GoOutTypeName:     strings.Replace(m.ReturnsType, ".", "_", -1), // For nested messages replace . with _
-							Hash:              StrToInt32Hash(m.Name),
+							Hash:              uniqueMethodHash(m.Name),
 							FullMethodName:    serView.Name + "." + m.Name,
 							ParentServiceName: serView.Name,
 						}
