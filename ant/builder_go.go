@@ -1,10 +1,8 @@
 package ant
 
 import (
-	"bytes"
 	"io/ioutil"
 	"os"
-	"text/template"
 )
 
 func build_old(gen *GenOut) {
@@ -59,20 +57,4 @@ func writeOutputAndroidProto(fileName, output string) {
 func writeOutputAndroidApp(fileName, output string) {
 	err := ioutil.WriteFile(OUTPUT_ANDROID_APP_DIR+fileName, []byte(output), os.ModePerm)
 	noErr(err)
-}
-
-////////////// Shared /////////////
-func buildFromTemplate(tplName string, gen *GenOut) string {
-	tpl := template.New("go_interface" + tplName)
-	tpl.Funcs(fns)
-	tplGoInterface, err := ioutil.ReadFile(TEMPLATES_DIR + tplName)
-	noErr(err)
-	tpl, err = tpl.Parse(string(tplGoInterface))
-	noErr(err)
-
-	buffer := bytes.NewBufferString("")
-	err = tpl.Execute(buffer, gen)
-	noErr(err)
-
-	return buffer.String()
 }

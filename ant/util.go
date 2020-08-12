@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"github.com/kr/pretty"
 	"log"
-	"strconv"
 )
 
 /////////////// types converters /////////
@@ -159,18 +158,6 @@ func noErr(err error) {
 	if err != nil {
 		log.Panic(err)
 	}
-}
-
-func StrToInt(str string, defualt int) int {
-	r64, err := strconv.ParseInt(str, 10, 64)
-	if err != nil {
-		return defualt
-	}
-	return int(r64)
-}
-
-func IntToStr(num int) string {
-	return strconv.Itoa(num)
 }
 
 func PrettyPrint(a interface{}) {
