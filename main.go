@@ -13,3 +13,4 @@ func main() {
 // - remove duplicate go codes
 // - go builders in seprate file
 // - hash num, check for uniqeness
+// - rust rpc > lowercase

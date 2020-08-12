@@ -27,7 +27,6 @@ type MessageView struct {
 	Fields     []FieldView
 	Comment    string
 	Options    []OptionsView
-	RealmClass string
 }
 
 type FieldView struct {
@@ -41,7 +40,6 @@ type FieldView struct {
 	JavaType      string
 	RustType      string
 	Options       []OptionsView
-	RealmTypeName string
 }
 
 ////////// Enums /////////
@@ -71,8 +69,6 @@ type GenOut struct {
 	Services []ServiceView
 	Messages []MessageView
 	Enums    []EnumView
-
-	Realms []MessageView
 
 	OutGoEnumsStr string
 	OutGoRPCsStr  string

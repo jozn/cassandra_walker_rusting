@@ -69,7 +69,6 @@ func ExtractAllMessagesViews(protos []*proto.Proto) []MessageView {
 							JavaType:      pbTypesToJavaType(field.Type),
 							RustType:      pbTypesToRustType(field.Type),
 							Options:       protoOptionsToOptionsView(field.Options),
-							RealmTypeName: pbToRealmName(pbTypesToJavaType(field.Type)),
 						}
 						msgView.Fields = append(msgView.Fields, fieldView)
 					}
@@ -142,28 +141,6 @@ func protoOptionsToOptionsView(options []*proto.Option) (res []OptionsView) {
 			OptionValue: option.Constant.Source,
 		}
 		res = append(res, v)
-	}
-	return
-}
-
-//////////////////////////////////////////////////////////////////////////////
-func GetAllARealmMessageViews(msgs []MessageView) (res []MessageView) {
-	for _, m := range msgs {
-		for _, opt := range m.Options {
-			if strings.ToLower(opt.OptionName) == REALM {
-				res = append(res, m)
-			}
-		}
-	}
-	return
-}
-
-// pb meassages with  {realm} - GetAllARealmMessageViews() dosn't works with proto.exe it jus fails
-func GetAllARealmMessageViews_FromComments(msgs []MessageView) (res []MessageView) {
-	for _, m := range msgs {
-		if strings.Contains(strings.ToLower(m.Comment), "{realm}") {
-			res = append(res, m)
-		}
 	}
 	return
 }

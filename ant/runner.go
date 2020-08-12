@@ -18,10 +18,6 @@ const OUTPUT_DIR_RUST_X = `/home/hamid/life/_active/backbone/src/`
 const TEMPLATES_DIR = `/home/hamid/life/_active/pb_walker/templates/`
 const DIR_PROTOS = `/home/hamid/life/_active/backbone/src/pb/proto/`//`/home/hamid/life/_active/pb_walker/play/pb/`
 
-const REALM = "realm"
-
-const OUTPUT_ANDROID_REALM_DIR_ = `D:/ms/social/app/src/main/java/com/mardomsara/social/models_realm/pb_realm/`
-
 func Run() {
 	files, err := ioutil.ReadDir(DIR_PROTOS)
 	noErr(err)
@@ -45,8 +41,6 @@ func Run() {
 		Services: ExtractAllServicesViews(prtos),
 		Enums:    ExtractAllEnumsViews(prtos),
 	}
-	//genOut.Realms = GetAllARealmMessageViews(genOut.Messages)
-	genOut.Realms = GetAllARealmMessageViews_FromComments(genOut.Messages)
 
 	print("===========================================")
 

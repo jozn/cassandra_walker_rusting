@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"io/ioutil"
 	"os"
-	"strings"
 	"text/template"
 )
 
@@ -12,13 +11,11 @@ func buildRust(gen *GenOut) {
 	os.MkdirAll(OUTPUT_DIR_RUST_X, os.ModePerm)
 
 	writeOutputRust("rpc.rs", buildFromTemplate("rpc.rs", gen))
-
 }
 
 func buildGo(gen *GenOut) {
 	os.MkdirAll(OUTPUT_DIR_GO_X, os.ModePerm)
 	os.MkdirAll(OUTPUT_DIR_GO_X_CONST, os.ModePerm)
-	os.MkdirAll(OUTPUT_ANDROID_REALM_DIR_, os.ModePerm)
 	os.MkdirAll(OUTPUT_ANDROID_APP_DIR, os.ModePerm)
 	os.MkdirAll(OUTPUT_ANDROID_PROTO_MOUDLE_DIR, os.ModePerm)
 
@@ -55,7 +52,6 @@ func writeOutputRust(fileName, output string) {
 
 func build_old(gen *GenOut) {
 	os.MkdirAll(OUTPUT_DIR_GO_X_CONST, os.ModePerm)
-	os.MkdirAll(OUTPUT_ANDROID_REALM_DIR_, os.ModePerm)
 
 	OutGoRPCsStr := buildFromTemplate("rpc.tgo", gen)
 	writeOutput("pb__gen_ant.go", OutGoRPCsStr)
@@ -83,8 +79,6 @@ func build_old(gen *GenOut) {
 
 	/////// Enums /////////////////
 
-	////////// Realm /////////////
-	buildForRealms(gen.Realms)
 }
 
 func buildFromTemplate(tplName string, gen *GenOut) string {
@@ -120,37 +114,4 @@ func writeOutputAndroidProto(fileName, output string) {
 func writeOutputAndroidApp(fileName, output string) {
 	err := ioutil.WriteFile(OUTPUT_ANDROID_APP_DIR+fileName, []byte(output), os.ModePerm)
 	noErr(err)
-}
-
-func buildForRealms(msgs []MessageView) {
-	buff := make(map[string]string)
-
-	for _, realmMsgView := range msgs {
-		realmMsgView.RealmClass = pbToRealmName(realmMsgView.Name)
-		tpl := template.New("realm_____")
-		tpl.Funcs(fns)
-		tplGoInterface, err := ioutil.ReadFile(TEMPLATES_DIR + "realm.java")
-		noErr(err)
-		tpl, err = tpl.Parse(string(tplGoInterface))
-		noErr(err)
-
-		buffer := bytes.NewBufferString("")
-		err = tpl.Execute(buffer, &realmMsgView)
-		noErr(err)
-
-		buff[realmMsgView.RealmClass] = buffer.String()
-	}
-
-	for klass, out := range buff {
-		err := ioutil.WriteFile(OUTPUT_ANDROID_REALM_DIR_+klass+".java", []byte(out), os.ModePerm)
-		noErr(err)
-	}
-}
-
-func pbToRealmName(pbName string) string {
-	s := strings.Replace(pbName, "PB_", "Realm", -1)
-	/*if s[0:6] != "Realm" {
-		s += "Realm" + s
-	}*/
-	return s
 }

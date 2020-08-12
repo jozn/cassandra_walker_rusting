@@ -11,7 +11,6 @@ var fns = template.FuncMap{
 	"tFlatTypeToGoPBType":   tFlatTypeToGoPBType,
 	"tFlatTypeToGoPBType2":  tFlatTypeToGoPBType2,
 	"tDefaultGoStructValue": tDefaultGoStructValue,
-	"fIsRealmType":          fIsRealmType,
 }
 
 func tIsPBPrimateTypes(pbType string) bool {
@@ -69,10 +68,6 @@ func tFlatTypeToGoPBType2(field FieldView, fieldPerifx string) string {
 	}
 
 	return r
-}
-
-func fIsRealmType(field FieldView) bool {
-	return strings.Contains(strings.ToLower(field.RealmTypeName), "realm")
 }
 
 func tDefaultGoStructValue(field FieldView) string {
