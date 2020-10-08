@@ -15,27 +15,25 @@ pub fn server_rpc(act : Invoke) -> Result<Vec<u8>,GenErr> {
     // service: {{.Name}}
     {{- range .Methods}}
         {{.Hash}} => {
-            let vec = "funk ".as_bytes().to_owned();
-
-            let mut reader = BytesReader::from_bytes(&act.rpc_data);
-            let rpc_param= pb::{{.InTypeName}}::from_reader(&mut reader, &act.rpc_data);
+            let vec :Vec<u8> = vec![];
+            let rpc_param = BytesReader::from_bytes(&vec).read_message::<pb::{{.InTypeName}}>(&act.rpc_data);
 
             if let Ok(param) = rpc_param {
-            println!("param {:?}", param);
-            let result = rpc::{{.MethodName}}(&up,param)?;
+                println!("param {:?}", param);
+                let result = rpc::{{.MethodName}}(&up, param)?;
 
-            let mut out_bytes = Vec::new();
-            let mut writer = Writer::new(&mut out_bytes);
-            let out = writer.write_message(&result);
-            return Ok(out_bytes)
+                let mut out_bytes = Vec::new();
+                let _result = Writer::new(&mut out_bytes).write_message(&result);
+
+                Ok(out_bytes)
             } else {
+                Err(GenErr::ReadingPbParam)
             }
-            Ok(vec)
         },
     {{- end}}
     {{end}}
         _ => {
-           Err(GenErr{})
+            Err(GenErr::NoRpcMatch)
         }
     }
 }
