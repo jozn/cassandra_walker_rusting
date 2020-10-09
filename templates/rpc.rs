@@ -7,6 +7,16 @@ use quick_protobuf::{MessageRead,MessageWrite,Writer};
 
 use crate::{pb,com, pb::sys::Invoke,com::*, rpc_fns};
 
+pub mod method_ids {
+    {{- range .Services}}
+    // Service: {{.Name}}
+    {{- range .Methods}}
+    pub const {{.MethodName}}: u32 = {{.Hash}};
+    {{- end}}
+    {{end}}
+    pub const ChangePhoneNumber8 : u32 = 79874;
+}
+
 pub fn server_rpc(act : Invoke) -> Result<Vec<u8>,GenErr> {
     let up = UserParam{};
 
@@ -14,7 +24,7 @@ pub fn server_rpc(act : Invoke) -> Result<Vec<u8>,GenErr> {
     {{range .Services}}
     // service: {{.Name}}
     {{- range .Methods}}
-        {{.Hash}} => {
+        method_ids::{{.MethodName}} => { // {{.Hash}}
             let vec: Vec<u8> = vec![];
             let rpc_param = BytesReader::from_bytes(&vec)
                 .read_message::<pb::{{.InTypeName}}>(&act.rpc_data);
