@@ -49,11 +49,17 @@ pub fn server_rpc(act : Invoke) -> Result<Vec<u8>,GenErr> {
     }
 }
 
-struct RpcClient {
+pub struct RpcClient {
     endpoint: &'static str,
 }
 
 impl RpcClient {
+    pub fn new(endpoint: &'static str) -> Self {
+        RpcClient{
+            endpoint: endpoint,
+        }
+    }
+
     fn get_next_action_id(&self) -> u64 {
         8
     }
