@@ -17,7 +17,7 @@ pub mod method_ids {
     pub const ChangePhoneNumber8 : u32 = 79874;
 }
 
-pub fn server_rpc(act : pb::Invoke) -> Result<Vec<u8>,GenErr> {
+pub async fn server_rpc(act : pb::Invoke) -> Result<Vec<u8>,GenErr> {
     let up = UserParam{};
 
     match act.method {
@@ -30,7 +30,7 @@ pub fn server_rpc(act : pb::Invoke) -> Result<Vec<u8>,GenErr> {
 
             if let Ok(param) = rpc_param {
                 println!("param {:?}", param);
-                let response = rpc_fns::{{.MethodName}}(&up, param)?;
+                let response = rpc_fns::{{.MethodName}}(&up, param).await?;
 
                 let mut buff =vec![];
                 prost::Message::encode(&response, &mut buff)?;

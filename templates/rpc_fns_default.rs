@@ -5,7 +5,7 @@ use crate::{com, com::*, pb};
 pub mod {{.Name}} {
     use super::*;
     {{range .Methods}}
-    pub fn {{.MethodName}}(up: &UserParam, param: pb::{{.InTypeName}}) -> Result<pb::{{.OutTypeName}}, GenErr> {
+    pub async fn {{.MethodName}}(up: &UserParam, param: pb::{{.InTypeName}}) -> Result<pb::{{.OutTypeName}}, GenErr> {
         Ok(pb::{{.OutTypeName}}::default())
     }
     {{- end}}
