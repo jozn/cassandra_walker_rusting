@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize};
 use quick_protobuf::{BytesReader, BytesWriter};
 use quick_protobuf::{MessageRead,MessageWrite,Writer,deserialize_from_slice};
 
-use crate::{pb,com,com::*, rpc_fns};
+use crate::{pb,com, pb::sys::Invoke,com::*, rpc_fns};
 
 pub mod method_ids {
     {{- range .Services}}
@@ -17,7 +17,7 @@ pub mod method_ids {
     pub const ChangePhoneNumber8 : u32 = 79874;
 }
 
-pub fn server_rpc(act : pb::Invoke) -> Result<Vec<u8>,GenErr> {
+pub fn server_rpc(act : Invoke) -> Result<Vec<u8>,GenErr> {
     let up = UserParam{};
 
     match act.method {
@@ -26,16 +26,17 @@ pub fn server_rpc(act : pb::Invoke) -> Result<Vec<u8>,GenErr> {
     {{- range .Methods}}
         method_ids::{{.MethodName}} => { // {{.Hash}}
             let vec: Vec<u8> = vec![];
-            let rpc_param  : Result<pb::{{.InTypeName}}, ::prost::DecodeError> = prost::Message::decode(act.rpc_data.as_slice());
+            let rpc_param = BytesReader::from_bytes(&vec)
+                .read_message::<pb::{{.InTypeName}}>(&act.rpc_data);
 
             if let Ok(param) = rpc_param {
                 println!("param {:?}", param);
-                let response = rpc_fns::{{.MethodName}}(&up, param)?;
+                let result = rpc_fns::{{.MethodName}}(&up, param)?;
 
-                let mut buff =vec![];
-                prost::Message::encode(&response, &mut buff)?;
+                let mut out_bytes = Vec::new();
+                let _result = Writer::new(&mut out_bytes).write_message(&result);
 
-                Ok(buff)
+                Ok(out_bytes)
             } else {
                 Err(GenErr::ReadingPbParam)
             }
@@ -68,8 +69,8 @@ impl RpcClient {
     {{- range .Methods}}
     pub async fn {{.MethodName}} (&self, param: pb::{{.InTypeName}}) -> Result<pb::{{.OutTypeName}},GenErr>{
 
-        let mut buff =vec![];
-        ::prost::Message::encode(&param, &mut buff)?;
+        let mut buff = Vec::new();
+        Writer::new(&mut buff).write_message(&param).unwrap();
 
         let invoke = pb::Invoke {
             namespace: 0,
@@ -79,14 +80,11 @@ impl RpcClient {
             rpc_data: buff,
         };
 
-        let mut buff =vec![];
-        let m = prost::Message::encode(&invoke, &mut buff);
-
         let mut buff = Vec::new();
-        ::prost::Message::encode(&invoke, &mut buff)?;
+        Writer::new(&mut buff).write_message(&invoke).unwrap();
 
         let req = reqwest::Client::new()
-            .post(self.endpoint)
+            .post("http://127.0.0.1:3000/rpc")
             .body(buff)
             .send()
             .await?;
@@ -94,7 +92,7 @@ impl RpcClient {
         let res_bytes = req.bytes().await?;
         let res_bytes = res_bytes.to_vec();
 
-        let pb_res = ::prost::Message::decode(res_bytes.as_slice())?;
+        let pb_res =  deserialize_from_slice::<pb::{{.OutTypeName}}>(&res_bytes)?;
         Ok(pb_res)
     }
     {{end}}
