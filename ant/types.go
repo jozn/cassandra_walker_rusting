@@ -2,11 +2,12 @@ package ant
 
 ////////// Service /////////
 type ServiceView struct {
-	Name    string
-	Methods []MethodView
-	Comment string
-	Hash    uint32
-	Options []OptionsView
+	Name        string
+	Methods     []MethodView
+	Comment     string
+	Hash        uint32
+	Options     []OptionsView
+	NameStriped string // Without RPC_ prefix
 }
 
 type MethodView struct {
@@ -19,27 +20,28 @@ type MethodView struct {
 	Options           []OptionsView
 	FullMethodName    string // RPC_Other.Echo
 	ParentServiceName string // RPC_Other
+	DartMethodName    string // camelCase
 }
 
 ////////// Messages /////////
 type MessageView struct {
-	Name       string
-	Fields     []FieldView
-	Comment    string
-	Options    []OptionsView
+	Name    string
+	Fields  []FieldView
+	Comment string
+	Options []OptionsView
 }
 
 type FieldView struct {
-	FieldName     string
-	TypeName      string
-	Repeated      bool
-	TagNumber     int
-	isPrimitive   bool // is ? numbers, bool, string, bytes or refrence to other custom types
-	GoType        string
-	GoFlatType    string
-	JavaType      string
-	RustType      string
-	Options       []OptionsView
+	FieldName   string
+	TypeName    string
+	Repeated    bool
+	TagNumber   int
+	isPrimitive bool // is ? numbers, bool, string, bytes or refrence to other custom types
+	GoType      string
+	GoFlatType  string
+	JavaType    string
+	RustType    string
+	Options     []OptionsView
 }
 
 ////////// Enums /////////

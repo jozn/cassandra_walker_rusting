@@ -183,7 +183,7 @@ var hashMp = make(map[uint32]string)
 
 func uniqueMethodHash(method string) uint32 {
 	var hash = StrToInt32Hash(method)
-	otherMethod,ok := hashMp[hash]
+	otherMethod, ok := hashMp[hash]
 	if ok {
 		log.Fatalf("Methods hash collides, methods: (%s) , (%s) -- hash: (%d)", method, otherMethod, hash)
 	}

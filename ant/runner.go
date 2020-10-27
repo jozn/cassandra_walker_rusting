@@ -1,13 +1,14 @@
 package ant
 
 import (
-	"github.com/emicklei/proto"
-	"github.com/labstack/gommon/log"
 	"io/ioutil"
 	"os"
 	_ "os"
 	"os/exec"
 	"path"
+
+	"github.com/emicklei/proto"
+	"github.com/labstack/gommon/log"
 )
 
 const OUTPUT_DIR_GO_X_CONST = `/home/hamid/life/_active/backbone/src/x/xconst/`
@@ -17,6 +18,8 @@ const OUTPUT_DIR_GO_X = `/home/hamid/life/_active/backbone/src/x/go/`
 const OUTPUT_DIR_RUST_X = `/home/hamid/life/_active/backbone/src/`
 const TEMPLATES_DIR = `/home/hamid/life/_active/pb_walker/templates/`
 const DIR_PROTOS = `/home/hamid/life/_active/backbone/src/protos/proto/`
+
+const OUTPUT_DIR_DART = `/home/hamid/life/flip/flip_app/flip_app/lib/ui/`
 
 func Run() {
 	files, err := ioutil.ReadDir(DIR_PROTOS)
@@ -48,7 +51,7 @@ func Run() {
 
 	//buildGo(genOut)
 	buildRust(genOut)
-
+	buildDart(genOut)
 
 	err = exec.Command("javafmt").Run()
 }

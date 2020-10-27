@@ -22,7 +22,6 @@ func buildFromTemplate(tplName string, gen *GenOut) string {
 	return buffer.String()
 }
 
-
 ///////////// Template funcs /////////////
 
 var fns = template.FuncMap{
@@ -31,6 +30,8 @@ var fns = template.FuncMap{
 	"tFlatTypeToGoPBType":   tFlatTypeToGoPBType,
 	"tFlatTypeToGoPBType2":  tFlatTypeToGoPBType2,
 	"tDefaultGoStructValue": tDefaultGoStructValue,
+
+	"toLower": strings.ToLower,
 }
 
 func tIsPBPrimateTypes(pbType string) bool {

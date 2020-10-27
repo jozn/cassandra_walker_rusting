@@ -14,10 +14,11 @@ func ExtractAllServicesViews(protos []*proto.Proto) []ServiceView {
 			// Each rpc server holders
 			if pbService, ok := entry.(*proto.Service); ok {
 				serView := ServiceView{
-					Name:    pbService.Name,
-					Comment: extractCommentV2(pbService.Comment),
-					Hash:    uniqueMethodHash(pbService.Name), // it's ok to use method hash uniqueness
-					Options: extractElementOptions(pbService.Elements),
+					Name:        pbService.Name,
+					Comment:     extractCommentV2(pbService.Comment),
+					Hash:        uniqueMethodHash(pbService.Name), // it's ok to use method hash uniqueness
+					Options:     extractElementOptions(pbService.Elements),
+					NameStriped: strings.Replace(pbService.Name, "RPC_", "", -1),
 				}
 
 				// Each rpc fun
@@ -32,6 +33,7 @@ func ExtractAllServicesViews(protos []*proto.Proto) []ServiceView {
 							Hash:              uniqueMethodHash(m.Name),
 							FullMethodName:    serView.Name + "." + m.Name,
 							ParentServiceName: serView.Name,
+							DartMethodName:    strings.ToLower(m.Name[0:1]) + m.Name[1:],
 						}
 						serView.Methods = append(serView.Methods, mv)
 					}
@@ -59,16 +61,16 @@ func ExtractAllMessagesViews(protos []*proto.Proto) []MessageView {
 				for _, pbEle := range pbMsg.Elements {
 					if field, ok := pbEle.(*proto.NormalField); ok {
 						fieldView := FieldView{
-							FieldName:     field.Name,
-							TypeName:      field.Type,
-							Repeated:      field.Repeated,
-							TagNumber:     field.Sequence,
-							GoType:        pbTypesToGoType(field.Type),
-							isPrimitive:   pbTypesIsPrimitive(field.Type),
-							GoFlatType:    pbTypesToGoFlatTypes(field.Type),
-							JavaType:      pbTypesToJavaType(field.Type),
-							RustType:      pbTypesToRustType(field.Type),
-							Options:       protoOptionsToOptionsView(field.Options),
+							FieldName:   field.Name,
+							TypeName:    field.Type,
+							Repeated:    field.Repeated,
+							TagNumber:   field.Sequence,
+							GoType:      pbTypesToGoType(field.Type),
+							isPrimitive: pbTypesIsPrimitive(field.Type),
+							GoFlatType:  pbTypesToGoFlatTypes(field.Type),
+							JavaType:    pbTypesToJavaType(field.Type),
+							RustType:    pbTypesToRustType(field.Type),
+							Options:     protoOptionsToOptionsView(field.Options),
 						}
 						msgView.Fields = append(msgView.Fields, fieldView)
 					}

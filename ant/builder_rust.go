@@ -16,4 +16,3 @@ func writeOutputRust(fileName, output string) {
 	err := ioutil.WriteFile(OUTPUT_DIR_RUST_X+fileName, []byte(output), os.ModePerm)
 	noErr(err)
 }
-
