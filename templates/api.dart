@@ -2,7 +2,7 @@ import 'dart:async' as $async;
 import 'package:http/http.dart' as http;
 import 'package:protobuf/protobuf.dart';
 import 'package:protobuf/protobuf.dart' as $pb;
-import 'package:flip_app/pb/sys.pb.dart';
+import 'package:flip_app/pb/global.pb.dart';
 
 {{range .Services}}
 import 'package:flip_app/pb/{{toLower .Name}}.pb.dart';
