@@ -30,7 +30,8 @@ func ExtractAllServicesViews(protos []*proto.Proto) []ServiceView {
 							GoInTypeName:      strings.Replace(m.RequestType, ".", "_", -1), // For nested messages replace . with _
 							OutTypeName:       m.ReturnsType,
 							GoOutTypeName:     strings.Replace(m.ReturnsType, ".", "_", -1), // For nested messages replace . with _
-							Hash:              uniqueMethodHash(pbService.Name + "." +m.Name),
+							//Hash:              uniqueMethodHash(pbService.Name + "." +m.Name),
+							Hash:              uniqueMethodHash(m.Name),
 							FullMethodName:    serView.Name + "." + m.Name,
 							ParentServiceName: serView.Name,
 							DartMethodName:    strings.ToLower(m.Name[0:1]) + m.Name[1:],

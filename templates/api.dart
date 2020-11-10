@@ -8,32 +8,16 @@ import 'package:flip_app/pb/global.pb.dart';
 import 'package:flip_app/pb/{{toLower .Name}}.pb.dart';
 {{- end}}
 
-var rpcNameToHashId = {
-{{- range .Services}}
+{{range .Services}}
+class {{.NameStriped}} {
 	{{- range .Methods}}
-        '{{.MethodName}}': {{.Hash}},
-    {{- end -}}
-{{- end}}
-};
-
-
-class FlipHttpRpcClient extends RpcClient {
-  @override
-  Future<T> invoke<T extends GeneratedMessage>(
-      ClientContext ctx,
-      String serviceName,
-      String methodName,
-      GeneratedMessage param,
-      T emptyResponse) async {
-
+  static $async.Future<{{.OutTypeName}}> {{.DartMethodName}}({{.InTypeName}} param) async {
     var paramBuff = param.writeToBuffer();
-
-    var hashId = rpcNameToHashId[methodName];
 
     var invoke = Invoke();
     invoke.namespace = 0;
     invoke.isResponse = false;
-    invoke.method = hashId;
+    invoke.method = {{.Hash}}; // {{.MethodName}}
     invoke.rpcData = paramBuff;
 
     var invokeBuff = invoke.writeToBuffer();
@@ -43,39 +27,14 @@ class FlipHttpRpcClient extends RpcClient {
       body: invokeBuff,
       // encoding: Encoding.getByName("utf-8")
     );
+    // print('Response ## len : ${res.body.length}');
+    // print('Response ## bts  : ${res.bodyBytes}');
 
-    print('Response : ${res}');
+    var response = {{.OutTypeName}}();
+    response.mergeFromBuffer(res.bodyBytes);
+    return response;
   }
-}
-
-
-class FlipRpcPbClientContext extends $pb.ClientContext {
-  
-}
-
-{{range .Services}}
-{{$rn := .Name }}
-class {{.NameStriped}} {
-	{{- range .Methods}}
-  static $async.Future<{{.OutTypeName}}> {{.DartMethodName}}({{.InTypeName}} param) async {
-    var rpcClient = FlipHttpRpcClient();
-    var serviceRpc = {{$rn}}Api(rpcClient);
-
-    var ctxRpc = FlipRpcPbClientContext();
-
-    return await serviceRpc.{{.DartMethodName}}(ctxRpc, param);
-  }
-  {{- end -}}
+  {{end}}
 }
 {{- end}}
 
-class Auth22 {
-  static $async.Future<SendConfirmCodeResponse> sendConfirmCode(SendConfirmCodeParam param) async {
-    var rpcClient = FlipHttpRpcClient();
-    var serviceRpc = RPC_AuthApi(rpcClient);
-
-    var ctxRpc = FlipRpcPbClientContext();
-
-    return await serviceRpc.sendConfirmCode(ctxRpc, param);
-  }
-}
