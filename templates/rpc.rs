@@ -66,7 +66,8 @@ impl RpcClient {
 {{range .Services -}}
 // service: {{.Name}}
     {{- range .Methods}}
-    pub async fn {{.MethodName}} (&self, param: pb::{{.InTypeName}}) -> Result<pb::{{.OutTypeName}},GenErr>{
+    pub async fn {{.MethodName}} (&self, param: pb::{{.InTypeName}})
+        -> Result<pb::{{.OutTypeName}},GenErr>{
 
         let mut buff =vec![];
         ::prost::Message::encode(&param, &mut buff)?;

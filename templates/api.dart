@@ -9,9 +9,10 @@ import 'package:flip_app/pb/{{toLower .Name}}.pb.dart';
 {{- end}}
 
 {{range .Services}}
-class {{.NameStriped}} {
+class {{.Name}} {
 	{{- range .Methods}}
-  static $async.Future<{{.OutTypeName}}> {{.DartMethodName}}({{.InTypeName}} param) async {
+  static $async.Future<{{.OutTypeName}}> {{.DartMethodName}}(
+      {{.InTypeName}} param) async {
     var paramBuff = param.writeToBuffer();
 
     var invoke = Invoke();
