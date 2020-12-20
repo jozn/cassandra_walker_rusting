@@ -15,12 +15,12 @@ const OUTPUT_DIR_GO_X_CONST = `/home/hamid/life/_active/backbone/src/x/xconst/`
 const OUTPUT_ANDROID_PROTO_MOUDLE_DIR = `/home/hamid/life/_active/backbone/src/x/pb/`
 const OUTPUT_ANDROID_APP_DIR = `/home/hamid/life/_active/backbone/src/x/android/`
 const OUTPUT_DIR_GO_X = `/home/hamid/life/_active/backbone/src/x/go/`
-const OUTPUT_DIR_RUST_X = `/home/hamid/life/_active/backbone/src/`
+const OUTPUT_DIR_RUST_X = `/home/hamid/life/_active/backbone/lib/shared/src/`
 const RUST_PROJECT = `/home/hamid/life/_active/backbone/`
 const TEMPLATES_DIR = `/home/hamid/life/_active/pb_walker/templates/`
-const DIR_PROTOS = `/home/hamid/life/_active/backbone/src/protos/proto/`
+const DIR_PROTOS = `/home/hamid/life/_active/backbone/lib/shared/src/protos/proto/`
 
-const OUTPUT_DIR_DART = `/home/hamid/life/flip/flip_app/flip_app/lib/ui/`
+const OUTPUT_DIR_DART = `/hamid/life/flip/flip_app2/lib/ui/`
 
 func Run() {
 	files, err := ioutil.ReadDir(DIR_PROTOS)
