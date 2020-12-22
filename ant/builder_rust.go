@@ -11,6 +11,7 @@ func buildRust(gen *GenOut) {
 
 	writeOutputRust("rpc.rs", buildFromTemplate("rpc.rs", gen))
 	writeOutputRust("rpc_fns_default.rs", buildFromTemplate("rpc_fns_default.rs", gen))
+	writeOutputRust("rpc2.rs", buildFromTemplate("rpc2.rs", gen))
 
 	// Run cargo fmt
 	currDir,err:= os.Getwd()

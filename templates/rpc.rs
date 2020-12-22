@@ -3,7 +3,7 @@ use hyper::service::{make_service_fn, service_fn};
 use hyper::body;
 use serde::{Deserialize, Serialize};
 
-use crate::{pb,com,com::*, rpc_fns};
+use crate::{pb, errors::GenErr};
 
 pub mod method_ids {
     {{- range .Services}}
