@@ -11,11 +11,13 @@ use hyper::{Body, Error as HyperError, Request, Response, Server};
 use std::convert::Infallible;
 use std::net::SocketAddr;
 
+#[derive(Debug)]
 pub struct RpcInvoke {
     method_id: i64, // correct data type should be i32,
     rpc_service: RpcServiceData,
 }
 
+#[derive(Debug)]
 pub enum RpcServiceData {
 {{- range .Services}}
     {{.Name}}({{.Name}}_MethodData),
@@ -23,6 +25,7 @@ pub enum RpcServiceData {
 }
 
 {{range .Services}}
+#[derive(Debug)]
 pub enum {{.Name}}_MethodData {
     {{- range .Methods}}
     {{.MethodName}}(pb::{{.InTypeName}}),
@@ -70,6 +73,7 @@ pub mod method_ids {
     pub const ExampleChangePhoneNumber8 : u32 = 79874;
 }
 
+#[derive(Debug)]
 pub enum MethodIds {
     {{- range .Services}}
     // Service: {{.Name}}
@@ -126,7 +130,7 @@ pub async fn server_rpc(act: RpcInvoke, reg: &RPC_Registry) -> Result<Vec<u8>, G
 
 pub struct RPC_Registry {
 {{- range .Services}}
-    {{.Name}}: Option<Box<{{.Name}}_Handler2>>,
+    pub {{.Name}}: Option<Box<{{.Name}}_Handler2>>,
 {{- end -}}
 }
 
@@ -149,3 +153,57 @@ fn eror<T>(input :&Option<T>) -> Result<&T, GenErr> {
         None => Err(GenErr::NoRpcRegistry),
     }
 }
+
+///////////////////////////////// Rpc Client ///////////////////////
+#[derive(Debug)]
+pub struct RpcClient {
+    endpoint: &'static str,
+}
+
+impl RpcClient {
+    pub fn new(endpoint: &'static str) -> Self {
+        RpcClient{
+            endpoint: endpoint,
+        }
+    }
+
+    fn get_next_action_id(&self) -> u64 {
+        8
+    }
+
+{{range .Services -}}
+// service: {{.Name}}
+    {{- range .Methods}}
+    pub async fn {{.MethodName}} (&self, param: pb::{{.InTypeName}})
+        -> Result<pb::{{.OutTypeName}},GenErr>{
+
+        let mut buff =vec![];
+        ::prost::Message::encode(&param, &mut buff)?;
+
+        let invoke = pb::Invoke {
+            namespace: 0,
+            method: method_ids::{{.MethodName}},
+            action_id: self.get_next_action_id() ,
+            is_response: false,
+            rpc_data: buff,
+        };
+
+        let mut buff =vec![];
+        ::prost::Message::encode(&invoke, &mut buff)?;
+
+        let req = reqwest::Client::new()
+            .post(self.endpoint)
+            .body(buff)
+            .send()
+            .await?;
+
+        let res_bytes = req.bytes().await?;
+        let res_bytes = res_bytes.to_vec();
+
+        let pb_res = ::prost::Message::decode(res_bytes.as_slice())?;
+        Ok(pb_res)
+    }
+    {{end}}
+{{end -}}
+}
+
