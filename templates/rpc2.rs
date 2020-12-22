@@ -102,7 +102,7 @@ pub fn invoke_to_parsed(invoke: &pb::Invoke) -> Result<RpcInvoke, GenErr>{
     Ok(rpc)
 }
 
-pub async fn server_rpc(act: RpcInvoke, reg: impl All_Rpc_Handler) -> Result<Vec<u8>, GenErr> {
+pub async fn server_rpc(act: RpcInvoke, reg: &RPC_Registry) -> Result<Vec<u8>, GenErr> {
 
     let res_v8 = match act.rpc_service {
 {{- range .Services}}
@@ -110,8 +110,8 @@ pub async fn server_rpc(act: RpcInvoke, reg: impl All_Rpc_Handler) -> Result<Vec
     RpcServiceData::{{.Name}}(method) => match method {
             {{- range .Methods}}
                 {{$service.Name}}_MethodData::{{.MethodName}}(param) => {
-                   let reg = reg.clone();
-                   let response = reg.{{.MethodName}}(param).await?;
+                   let handler = eror(&reg.{{$service.Name}})?;
+                   let response = handler.{{.MethodName}}(param).await?;
                    let v8 = to_vev8(&response)?;
                    v8
                 },
@@ -124,10 +124,10 @@ pub async fn server_rpc(act: RpcInvoke, reg: impl All_Rpc_Handler) -> Result<Vec
     Ok(res_v8)
 }
 
-
 pub struct RPC_Registry {
-    // RPC_Shared: RPC_Shared,
-// RPC_Chat: RPC_Chat,
+{{- range .Services}}
+    {{.Name}}: Option<Box<{{.Name}}_Handler2>>,
+{{- end -}}
 }
 
 {{range .Services}}
@@ -141,4 +141,11 @@ fn to_vev8(msg: &impl prost::Message) -> Result<Vec<u8>, GenErr> {
     let mut buff = vec![];
     prost::Message::encode(msg, &mut buff)?;
     Ok(buff)
+}
+
+fn eror<T>(input :&Option<T>) -> Result<&T, GenErr> {
+    match input {
+        Some(inbox) => Ok(inbox),
+        None => Err(GenErr::NoRpcRegistry),
+    }
 }
