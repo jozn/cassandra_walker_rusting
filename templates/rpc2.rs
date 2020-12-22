@@ -32,7 +32,7 @@ pub enum {{.Name}}_MethodData {
 
 {{range .Services}}
 #[async_trait]
-trait {{.Name}}_Handler {
+pub trait {{.Name}}_Handler {
     {{- range .Methods}}
     async fn {{.MethodName}}(up: &UserParam, param: pb::{{.InTypeName}}) -> Result<pb::{{.OutTypeName}}, GenErr> {
         Ok(pb::{{.OutTypeName}}::default())
@@ -44,7 +44,7 @@ trait {{.Name}}_Handler {
 
 {{range .Services}}
 #[async_trait]
-trait {{.Name}}_Handler2 {
+pub trait {{.Name}}_Handler2 : Send + Sync {
     {{- range .Methods}}
     async fn {{.MethodName}}(&self, param: pb::{{.InTypeName}}) -> Result<pb::{{.OutTypeName}}, GenErr> {
         Ok(pb::{{.OutTypeName}}::default())
@@ -53,6 +53,12 @@ trait {{.Name}}_Handler2 {
 }
 {{- end }}
 
+#[async_trait]
+pub trait All_Rpc_Handler :
+{{- range .Services -}}
+    {{- .Name}}_Handler2 +
+{{- end -}}
+Clone + Send + Sync {}
 
 pub mod method_ids {
     {{- range .Services}}
@@ -62,6 +68,15 @@ pub mod method_ids {
     {{- end}}
     {{end}}
     pub const ExampleChangePhoneNumber8 : u32 = 79874;
+}
+
+pub enum MethodIds {
+    {{- range .Services}}
+    // Service: {{.Name}}
+    {{- range .Methods}}
+    {{.MethodName}} = {{.Hash}},
+    {{- end}}
+    {{end}}
 }
 
 pub fn invoke_to_parsed(invoke: &pb::Invoke) -> Result<RpcInvoke, GenErr>{
@@ -87,22 +102,18 @@ pub fn invoke_to_parsed(invoke: &pb::Invoke) -> Result<RpcInvoke, GenErr>{
     Ok(rpc)
 }
 
-pub async fn server_rpc(act: RpcInvoke, reg: RPC_Registry) -> Result<Vec<u8>, GenErr> {
+pub async fn server_rpc(act: RpcInvoke, reg: impl All_Rpc_Handler) -> Result<Vec<u8>, GenErr> {
 
     let res_v8 = match act.rpc_service {
 {{- range .Services}}
     {{$service := .}}
     RpcServiceData::{{.Name}}(method) => match method {
             {{- range .Methods}}
-                {{$service.Name}}_MethodData::{{.MethodName}}(rr) => {
-                   // reg.{{.MethodName}}();
-                   let response = reg.{{.MethodName}}(rr).await?;
+                {{$service.Name}}_MethodData::{{.MethodName}}(param) => {
+                   let reg = reg.clone();
+                   let response = reg.{{.MethodName}}(param).await?;
                    let v8 = to_vev8(&response)?;
                    v8
-                   //response
-/*                    let mut buff =vec![];
-                   prost::Message::encode(&response, &mut buff)?;
-                   buff */
                 },
              {{ end }}
         },
