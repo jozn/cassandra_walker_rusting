@@ -209,3 +209,16 @@ impl RpcClient {
 {{end -}}
 }
 
+/////////////////////// Code gen for def rpc //////////////
+struct _RRR_ {}
+{{range .Services}}
+#[async_trait]
+impl {{.Name}}_Handler2 for _RRR_ {
+    {{- range .Methods}}
+    async fn {{.MethodName}}(&self, param: pb::{{.InTypeName}}) -> Result<pb::{{.OutTypeName}}, GenErr> {
+        println!("called {{.MethodName}} in the impl code.");
+        Ok(pb::{{.OutTypeName}}::default())
+    }
+    {{- end }}
+}
+{{- end }}
