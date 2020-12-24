@@ -128,6 +128,7 @@ pub async fn server_rpc(act: RpcInvoke, reg: &RPC_Registry) -> Result<Vec<u8>, G
     Ok(res_v8)
 }
 
+#[derive(Default)]
 pub struct RPC_Registry {
 {{- range .Services}}
     pub {{.Name}}: Option<Box<{{.Name}}_Handler2>>,
@@ -200,7 +201,8 @@ impl RpcClient {
         let res_bytes = req.bytes().await?;
         let res_bytes = res_bytes.to_vec();
 
-        let pb_res = ::prost::Message::decode(res_bytes.as_slice())?;
+        let pb_res_invoke: pb::Invoke = ::prost::Message::decode(res_bytes.as_slice())?;
+        let pb_res = ::prost::Message::decode(pb_res_invoke.rpc_data.as_slice())?;
         Ok(pb_res)
     }
     {{end}}
