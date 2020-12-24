@@ -91,9 +91,7 @@ pub fn invoke_to_parsed(invoke: &pb::Invoke) -> Result<RpcInvoke, GenErr>{
     {{- $service := . }}
     {{- range .Methods}}
         method_ids::{{.MethodName}} => {
-           let rpc_param  : Result<pb::{{.InTypeName}}, ::prost::DecodeError> =
-                   prost::Message::decode(invoke.rpc_data.as_slice());
-           let rpc_param  = rpc_param.unwrap();
+           let rpc_param: pb::{{.InTypeName}} = prost::Message::decode(invoke.rpc_data.as_slice())?;
            RpcInvoke{
                 method_id: {{.Hash}} as i64,
                 rpc_service: {{$service.Name}}({{$service.Name}}_MethodData::{{.MethodName}}(rpc_param)),
