@@ -1,6 +1,6 @@
 //#![rustfmt::skip]
 
-use crate::pb;
+use crate::{pb, common};
 use crate::pb::{EchoParam, EchoResponse};
 use crate::{errors::GenErr, UserParam};
 use async_trait::async_trait;
@@ -153,54 +153,14 @@ fn eror<T>(input :&Option<T>) -> Result<&T, GenErr> {
     }
 }
 
-///////////////////////////////// Rpc Client ///////////////////////
-#[derive(Debug)]
-pub struct RpcClient {
-    endpoint: &'static str,
-}
-
-impl RpcClient {
-    pub fn new(endpoint: &'static str) -> Self {
-        RpcClient{
-            endpoint: endpoint,
-        }
-    }
-
-    fn get_next_action_id(&self) -> u64 {
-        8
-    }
+impl common::RpcClient {
 
 {{range .Services -}}
 // service: {{.Name}}
     {{- range .Methods}}
     pub async fn {{.MethodName}} (&self, param: pb::{{.InTypeName}})
         -> Result<pb::{{.OutTypeName}},GenErr>{
-
-        let mut buff =vec![];
-        ::prost::Message::encode(&param, &mut buff)?;
-
-        let invoke = pb::Invoke {
-            namespace: 0,
-            method: method_ids::{{.MethodName}},
-            action_id: self.get_next_action_id() ,
-            is_response: false,
-            rpc_data: buff,
-        };
-
-        let mut buff =vec![];
-        ::prost::Message::encode(&invoke, &mut buff)?;
-
-        let req = reqwest::Client::new()
-            .post(self.endpoint)
-            .body(buff)
-            .send()
-            .await?;
-
-        let res_bytes = req.bytes().await?;
-        let res_bytes = res_bytes.to_vec();
-
-        let pb_res_invoke: pb::Invoke = ::prost::Message::decode(res_bytes.as_slice())?;
-        let pb_res = ::prost::Message::decode(pb_res_invoke.rpc_data.as_slice())?;
+        let pb_res = self.rpc_invoke(&param, method_ids::{{.MethodName}}).await?;
         Ok(pb_res)
     }
     {{end}}
