@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+option java_package = "ir.ms.pb";
+//option java_outer_classname = "PB2";
+option java_multiple_files = true;
+option optimize_for = LITE_RUNTIME; //CODE_SIZE;
+
+option go_package = "x";
+
+message SendConfirmCodeParam {
+    string Hash = 1;
+    string Phone = 2; // 98... 989015132328
+    string CountryCode = 3;
+    bool Resend = 4;
+}
+
+enum SendConfirmCodeTypeEnum {
+    SEND_CODE_OK = 0;
+    SEND_CODE_EMAIL = 1;
+}
+
+message SendConfirmCodeResponse {
+    bool Done =1;
+    string ErrorMessage =2;
+    bool JustEmailRegister = 3 ;
+    repeated string SmsNumbers = 4;
+    bool IsLogin = 5;
+}
+
+message SingUpParam {
+    option fipp_op1 = true;
+    string Hash = 1;
+    string FirstName = 2; //[fl_fix, fl_mot]
+    string LastName = 3;
+    string UserName = 4 [dep2 = true , nimbple_sd = 123 , sdf23 = "sdf", op34= LITE];
+    string Phone = 5  [dep2 = true , nimbple_sd = 123];
+    string Email = 6  [fipp_op1 = true];
+}
+
+message SingUpResponse {
+    bool Done =1;
+    string ErrorMessage = 2  [deprecated = true];
+}
+
+//option sdf = "sdfxxxxsd";
+//    [fl_fix, fl_mot]
+service RPC_Auth {
+    option rrrx = "tttttt";
+    rpc SendConfirmCode (SendConfirmCodeParam) returns (SendConfirmCodeResponse); // [fl_fix, fl_mot]
+    rpc SingUp (SingUpParam) returns (SingUpResponse) {option vvv = 5;option mmm = "sdfsd"; option kkk = GGGG;} // [fl_fix, fl_mot]
+}
+

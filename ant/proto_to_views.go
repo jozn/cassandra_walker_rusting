@@ -32,6 +32,7 @@ func ExtractAllServicesViews(protos []*proto.Proto) []ServiceView {
 							GoOutTypeName:     strings.Replace(m.ReturnsType, ".", "_", -1), // For nested messages replace . with _
 							//Hash:              uniqueMethodHash(pbService.Name + "." +m.Name),
 							Hash:              uniqueMethodHash(m.Name),
+							Options: extractElementOptions(m.Elements),
 							FullMethodName:    serView.Name + "." + m.Name,
 							ParentServiceName: serView.Name,
 							DartMethodName:    strings.ToLower(m.Name[0:1]) + m.Name[1:],
@@ -118,15 +119,19 @@ func ExtractAllEnumsViews(protos []*proto.Proto) []EnumView {
 
 // Extracts last comment line if exists
 func extractCommentV2(com *proto.Comment) string {
+	//PrettyPrint(com)
 	if com != nil && len(com.Lines) > 0 {
 		return com.Lines[len(com.Lines)-1]
 	}
 	return ""
 }
 
+// Extract options for message, enums, rpc
 func extractElementOptions(element []proto.Visitee) (res []OptionsView) {
+	//PrettyPrint(element)
 	for _, el := range element {
 		if option, ok := el.(*proto.Option); ok {
+			//PrettyPrint(option)
 			v := OptionsView{
 				OptionName:  option.Name,
 				OptionValue: option.Constant.Source,
@@ -137,6 +142,7 @@ func extractElementOptions(element []proto.Visitee) (res []OptionsView) {
 	return
 }
 
+// Extract options for message fields
 func protoOptionsToOptionsView(options []*proto.Option) (res []OptionsView) {
 	for _, option := range options {
 		v := OptionsView{

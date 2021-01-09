@@ -10,6 +10,7 @@ use hyper::service::{make_service_fn, service_fn};
 use hyper::{Body, Error as HyperError, Request, Response, Server};
 use std::convert::Infallible;
 use std::net::SocketAddr;
+use std::sync::Arc;
 
 #[derive(Debug)]
 pub struct RpcInvoke {
@@ -129,7 +130,7 @@ pub async fn server_rpc(act: RpcInvoke, reg: &RPC_Registry) -> Result<Vec<u8>, G
 #[derive(Default)]
 pub struct RPC_Registry {
 {{- range .Services}}
-    pub {{.Name}}: Option<Box<{{.Name}}_Handler2>>,
+    pub {{.Name}}: Option<Box<Arc<dyn {{.Name}}_Handler2>>>,
 {{- end -}}
 }
 

@@ -23,13 +23,21 @@ const DIR_PROTOS = `/home/hamid/life/_active/backbone/lib/shared/src/protos/prot
 const OUTPUT_DIR_DART = `/hamid/life/flip/flip_app2/lib/ui/`
 
 func Run() {
-	files, err := ioutil.ReadDir(DIR_PROTOS)
+	dirs := DirParam{
+		//ProtoDir:   `/home/hamid/life/_active/backbone/lib/shared/src/protos/proto/`,
+		ProtoDir:   `//hamid/life/_active/pb_walker/play/pb2/`, // play codes
+		RustOutDir: "./tmp_out1",
+	}
+
+	protoDir := dirs.ProtoDir
+
+	files, err := ioutil.ReadDir(protoDir)
 	noErr(err)
 	filesName := make([]string, len(files))
 	var prtos []*proto.Proto
 	for i, pbFile := range files {
 		filesName[i] = pbFile.Name()
-		pbReader, err := os.Open(path.Join(DIR_PROTOS, pbFile.Name()))
+		pbReader, err := os.Open(path.Join(protoDir, pbFile.Name()))
 		noErr(err)
 		defer pbReader.Close()
 		parser := proto.NewParser(pbReader)
@@ -44,6 +52,8 @@ func Run() {
 		Messages: ExtractAllMessagesViews(prtos),
 		Services: ExtractAllServicesViews(prtos),
 		Enums:    ExtractAllEnumsViews(prtos),
+
+		Dirs: dirs,
 	}
 
 	print("===========================================")
@@ -51,8 +61,8 @@ func Run() {
 	PrettyPrint(genOut)
 
 	//buildGo(genOut)
-	buildRust(genOut)
-	buildDart(genOut)
+	//buildRust(genOut)
+	//buildDart(genOut)
 
 	err = exec.Command("javafmt").Run()
 }

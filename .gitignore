@@ -18,3 +18,5 @@ projectFilesBackup/
 ./.idea
 *.exe
 pb_walker
+out
+out1.txt

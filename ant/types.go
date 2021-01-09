@@ -75,4 +75,11 @@ type GenOut struct {
 	OutGoEnumsStr string
 	OutGoRPCsStr  string
 	OutJavaStr    string
+
+	Dirs DirParam
+}
+
+type DirParam struct {
+	ProtoDir string
+	RustOutDir string
 }
