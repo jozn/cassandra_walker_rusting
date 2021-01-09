@@ -122,4 +122,5 @@ type GenOut struct {
 type DirParam struct {
 	ProtoDir   string
 	RustOutDir string
+	RustProjectDir string
 }
