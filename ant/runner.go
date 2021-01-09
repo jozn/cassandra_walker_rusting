@@ -48,13 +48,8 @@ func Run() {
 		prtos = append(prtos, pbParesed)
 	}
 
-	genOut := &GenOut{
-		Messages: ExtractAllMessagesViews(prtos),
-		Services: ExtractAllServicesViews(prtos),
-		Enums:    ExtractAllEnumsViews(prtos),
-
-		Dirs: dirs,
-	}
+	genOut := getGenOut(prtos)
+	genOut.Dirs = dirs
 
 	print("===========================================")
 
@@ -65,4 +60,17 @@ func Run() {
 	//buildDart(genOut)
 
 	err = exec.Command("javafmt").Run()
+}
+
+func getGenOut(prtos []*proto.Proto) *GenOut {
+	genOut := &GenOut{
+		PBMessages: ExtractAllPBMessages(prtos),
+		PBServices: ExtractAllPBServices(prtos),
+		PBEnums:    ExtractAllPBEnums(prtos),
+	}
+	genOut.Messages = processAllMessagesViews(genOut.PBMessages)
+	genOut.Services = processAllServicesViews(genOut.PBServices)
+	genOut.Enums = processAllEnumsViews(genOut.PBEnums)
+
+	return genOut
 }

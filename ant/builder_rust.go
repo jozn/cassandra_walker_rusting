@@ -14,10 +14,10 @@ func buildRust(gen *GenOut) {
 	writeOutputRust("rpc2.rs", buildFromTemplate("rpc2.rs", gen))
 
 	// Run cargo fmt
-	currDir,err:= os.Getwd()
+	currDir, err := os.Getwd()
 	noErr(err)
 	os.Chdir(RUST_PROJECT)
-	err = exec.Command("cargo","fmt").Run()
+	err = exec.Command("cargo", "fmt").Run()
 	noErr(err)
 	os.Chdir(currDir)
 }

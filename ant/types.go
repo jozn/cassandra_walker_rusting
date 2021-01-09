@@ -2,123 +2,112 @@ package ant
 
 // TODO: SHOULD SIMPLIFY TYPES BY BREAKING TYPES TO PB FIELDS AND PROCCESSD FILED
 
-////////// Service /////////
-type PBService struct {
-	Name        string
-	Methods     []MethodView
-	Comment     string
-	Options     []OptionsView
-}
+//////////////////////////// Raw PB Types /////////////////////
 
-type ServiceView struct {
-	//PBService
-	Name        string
-	Methods     []MethodView
-	Comment     string
-	Hash        uint32
-	Options     []OptionsView
-	NameStriped string // Without RPC_ prefix
+////////// PB Service /////////
+type PBService struct {
+	Name      string
+	PBMethods []PBMethod
+	Comment   string
+	PBOptions []PBOptions
 }
 
 type PBMethod struct {
-	MethodName        string
-	InTypeName        string
-	OutTypeName       string
-	Options           []OptionsView
+	MethodName  string
+	InTypeName  string
+	OutTypeName string
+	Comment     string
+	PBOptions   []PBOptions
+}
+
+////////// PB Messages /////////
+type PBMessage struct {
+	Name      string
+	PBFields  []PBMessageField
+	Comment   string
+	PBOptions []PBOptions
+}
+
+type PBMessageField struct {
+	FieldName string
+	TypeName  string
+	Repeated  bool
+	TagNumber int
+	PBOptions []PBOptions
+}
+
+////////// PB Enums /////////
+type PBEnum struct {
+	Name      string
+	PBFields  []PBEnumField
+	Comment   string
+	PBOptions []PBOptions
+}
+
+type PBEnumField struct {
+	FieldName string
+	TagNumber int
+	PosNumber int
+	PBOptions []PBOptions
+}
+
+////////// PB Others /////////
+type PBOptions struct {
+	OptionName  string
+	OptionValue string
+}
+
+//////////////////////////// Views Types ////////////////////////
+
+////////// Service /////////
+type ServiceView struct {
+	PBService
+	Methods []MethodView
 }
 
 type MethodView struct {
-	MethodName        string
-	InTypeName        string
+	PBMethod
 	GoInTypeName      string
-	OutTypeName       string
 	GoOutTypeName     string
 	Hash              uint32
-	Options           []OptionsView
 	FullMethodName    string // RPC_Other.Echo
 	ParentServiceName string // RPC_Other
 	DartMethodName    string // camelCase
 }
 
 ////////// Messages /////////
-type PBMessage struct {
-	Name    string
-	Fields  []FieldView
-	Comment string
-	Options []OptionsView
-}
-
 type MessageView struct {
-	Name    string
-	Fields  []FieldView
-	Comment string
-	Options []OptionsView
+	PBMessage
+	Fields []MessageFieldView
 }
 
-type PBField struct {
-	FieldName   string
-	TypeName    string
-	Repeated    bool
-	TagNumber   int
+type MessageFieldView struct {
+	PBMessageField
 	isPrimitive bool // is ? numbers, bool, string, bytes or refrence to other custom types
 	GoType      string
 	GoFlatType  string
 	JavaType    string
 	RustType    string
-	Options     []OptionsView
-}
-
-type FieldView struct {
-	FieldName   string
-	TypeName    string
-	Repeated    bool
-	TagNumber   int
-	isPrimitive bool // is ? numbers, bool, string, bytes or refrence to other custom types
-	GoType      string
-	GoFlatType  string
-	JavaType    string
-	RustType    string
-	Options     []OptionsView
 }
 
 ////////// Enums /////////
-type PBEnum struct {
-	Name    string
-	Fields  []EnumFieldView
-	Comment string
-	Options []OptionsView
-}
-
 type EnumView struct {
-	Name    string
-	Fields  []EnumFieldView
-	Comment string
-	Options []OptionsView
-}
-
-type EnumField struct {
-	FieldName string
-	TagNumber int
-	PosNumber int
-	Options   []OptionsView
+	PBEnum
+	Fields []EnumFieldView
 }
 
 type EnumFieldView struct {
-	FieldName string
-	TagNumber int
-	PosNumber int
-	Options   []OptionsView
-}
-
-/////////// Tag /////////
-type OptionsView struct {
-	OptionName  string
-	OptionValue string
+	PBEnumField
 }
 
 /////////////////////////////////////////
 ///////////// Extractor /////////////////
 type GenOut struct {
+	PBServices []PBService
+	PBMessages []PBMessage
+	PBEnums    []PBEnum
+
+	// Used directly in templates
 	Services []ServiceView
 	Messages []MessageView
 	Enums    []EnumView
@@ -131,6 +120,6 @@ type GenOut struct {
 }
 
 type DirParam struct {
-	ProtoDir string
+	ProtoDir   string
 	RustOutDir string
 }

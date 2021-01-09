@@ -11,4 +11,3 @@ func main() {
 // > below is done?
 // - hash num, check for uniqeness
 // - rust rpc > lowercase
-

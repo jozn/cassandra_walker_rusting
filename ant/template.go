@@ -55,7 +55,7 @@ func tIsPBPrimateTypes(pbType string) bool {
 	return r
 }
 
-func tPBTypeToGoFlatType(field FieldView, fieldPerifx string) string {
+func tPBTypeToGoFlatType(field MessageFieldView, fieldPerifx string) string {
 	r := ""
 	flatSr := pbTypesToGoFlatTypes(field.TypeName)
 	if field.TypeName == flatSr {
@@ -72,7 +72,7 @@ func tPBTypeToGoFlatType(field FieldView, fieldPerifx string) string {
 	return r
 }
 
-func tFlatTypeToGoPBType2(field FieldView, fieldPerifx string) string {
+func tFlatTypeToGoPBType2(field MessageFieldView, fieldPerifx string) string {
 	r := ""
 
 	flatSr := pbTypesToGoFlatTypes(field.TypeName)
@@ -91,7 +91,7 @@ func tFlatTypeToGoPBType2(field FieldView, fieldPerifx string) string {
 	return r
 }
 
-func tDefaultGoStructValue(field FieldView) string {
+func tDefaultGoStructValue(field MessageFieldView) string {
 	s := "0"
 	switch field.TypeName {
 	case "int64", "sint64", "int32",
