@@ -14,6 +14,7 @@ func ExtractAllPBMessages(protos []*proto.Proto) []PBMessage {
 					Name:      pbMsg.Name,
 					Comment:   extractCommentV2(pbMsg.Comment),
 					PBOptions: extractElementOptions(pbMsg.Elements),
+					PBFields: nil, // setting from below code
 				}
 
 				for _, pbEle := range pbMsg.Elements {
@@ -23,6 +24,8 @@ func ExtractAllPBMessages(protos []*proto.Proto) []PBMessage {
 							TypeName:  field.Type,
 							Repeated:  field.Repeated,
 							TagNumber: field.Sequence,
+							Comment:   extractCommentV2(field.InlineComment),
+							PBOptions: extractElementOptionsFromOptions(field.Options),
 						}
 						msgView.PBFields = append(msgView.PBFields, fieldView)
 					}
@@ -47,15 +50,19 @@ func ExtractAllPBServices(protos []*proto.Proto) []PBService {
 					Name:      pbService.Name,
 					Comment:   extractCommentV2(pbService.Comment),
 					PBOptions: extractElementOptions(pbService.Elements),
+					PBMethods: nil, // setting from below code
 				}
 
 				// Each rpc fun
 				for _, element := range pbService.Elements {
 					if m, ok := element.(*proto.RPC); ok {
+						//PrettyPrint(element)
 						mv := PBMethod{
 							MethodName:  m.Name,
 							InTypeName:  m.RequestType,
 							OutTypeName: m.ReturnsType,
+							Comment: extractCommentV2(m.InlineComment),
+							PBOptions: extractElementOptions(m.Elements),
 						}
 						serView.PBMethods = append(serView.PBMethods, mv)
 					}
@@ -78,6 +85,7 @@ func ExtractAllPBEnums(protos []*proto.Proto) []PBEnum {
 					Name:      enum.Name,
 					Comment:   extractCommentV2(enum.Comment),
 					PBOptions: extractElementOptions(enum.Elements),
+					PBFields: nil,// setting from below code
 				}
 
 				pos := 0
@@ -87,6 +95,8 @@ func ExtractAllPBEnums(protos []*proto.Proto) []PBEnum {
 							FieldName: value.Name,
 							TagNumber: int(value.Integer),
 							PosNumber: int(pos),
+							Comment:   extractCommentV2(value.InlineComment),
+							PBOptions: extractElementOptions(value.Elements),
 						}
 						pos++
 						enumView.PBFields = append(enumView.PBFields, fieldView)
@@ -126,7 +136,7 @@ func extractElementOptions(element []proto.Visitee) (res []PBOptions) {
 }
 
 // Extract options for message fields
-func protoOptionsToOptionsView(options []*proto.Option) (res []PBOptions) {
+func extractElementOptionsFromOptions(options []*proto.Option) (res []PBOptions) {
 	for _, option := range options {
 		v := PBOptions{
 			OptionName:  option.Name,

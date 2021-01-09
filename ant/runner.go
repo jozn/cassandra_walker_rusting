@@ -15,17 +15,13 @@ const OUTPUT_DIR_GO_X_CONST = `/home/hamid/life/_active/backbone/src/x/xconst/`
 const OUTPUT_ANDROID_PROTO_MOUDLE_DIR = `/home/hamid/life/_active/backbone/src/x/pb/`
 const OUTPUT_ANDROID_APP_DIR = `/home/hamid/life/_active/backbone/src/x/android/`
 const OUTPUT_DIR_GO_X = `/home/hamid/life/_active/backbone/src/x/go/`
-//const OUTPUT_DIR_RUST_X = `/home/hamid/life/_active/backbone/lib/shared/src/`
-//const RUST_PROJECT = `/home/hamid/life/_active/backbone/`
 const TEMPLATES_DIR = `/home/hamid/life/_active/pb_walker/templates/`
-//const DIR_PROTOS = `/home/hamid/life/_active/backbone/lib/shared/src/protos/proto/`
-
 const OUTPUT_DIR_DART = `/hamid/life/flip/flip_app2/lib/ui/`
 
 func Run() {
 	dirs := DirParam{
-		ProtoDir:   `/home/hamid/life/_active/backbone/lib/shared/src/protos/proto/`,
-		//ProtoDir:   `//hamid/life/_active/pb_walker/play/pb2/`, // play codes
+		//ProtoDir:   `/home/hamid/life/_active/backbone/lib/shared/src/protos/proto/`,
+		ProtoDir:   `//hamid/life/_active/pb_walker/play/pb2/`, // play codes
 		RustOutDir: `/home/hamid/life/_active/backbone/lib/shared/src/`,
 		RustProjectDir: `/home/hamid/life/_active/backbone/`,
 	}
@@ -57,21 +53,24 @@ func Run() {
 	PrettyPrint(genOut)
 
 	//buildGo(genOut)
-	buildRust(genOut)
-	buildDart(genOut)
+	//buildRust(genOut)
+	//buildDart(genOut)
 
 	err = exec.Command("javafmt").Run()
 }
 
 func getGenOut(prtos []*proto.Proto) *GenOut {
-	genOut := &GenOut{
+	pbGenOut := &PBGenOut{
 		PBMessages: ExtractAllPBMessages(prtos),
 		PBServices: ExtractAllPBServices(prtos),
 		PBEnums:    ExtractAllPBEnums(prtos),
 	}
-	genOut.Messages = processAllMessagesViews(genOut.PBMessages)
-	genOut.Services = processAllServicesViews(genOut.PBServices)
-	genOut.Enums = processAllEnumsViews(genOut.PBEnums)
+
+	genOut := &GenOut{
+		Messages :processAllMessagesViews(pbGenOut.PBMessages),
+		Services : processAllServicesViews(pbGenOut.PBServices),
+		Enums :processAllEnumsViews(pbGenOut.PBEnums)	,
+	}
 
 	return genOut
 }

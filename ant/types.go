@@ -1,7 +1,5 @@
 package ant
 
-// TODO: SHOULD SIMPLIFY TYPES BY BREAKING TYPES TO PB FIELDS AND PROCCESSD FILED
-
 //////////////////////////// Raw PB Types /////////////////////
 
 ////////// PB Service /////////
@@ -33,6 +31,7 @@ type PBMessageField struct {
 	TypeName  string
 	Repeated  bool
 	TagNumber int
+	Comment string
 	PBOptions []PBOptions
 }
 
@@ -48,6 +47,7 @@ type PBEnumField struct {
 	FieldName string
 	TagNumber int
 	PosNumber int
+	Comment   string
 	PBOptions []PBOptions
 }
 
@@ -102,11 +102,13 @@ type EnumFieldView struct {
 
 /////////////////////////////////////////
 ///////////// Extractor /////////////////
-type GenOut struct {
+type PBGenOut struct {
 	PBServices []PBService
 	PBMessages []PBMessage
 	PBEnums    []PBEnum
+}
 
+type GenOut struct {
 	// Used directly in templates
 	Services []ServiceView
 	Messages []MessageView

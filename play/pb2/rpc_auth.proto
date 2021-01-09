@@ -6,6 +6,7 @@ option java_multiple_files = true;
 option optimize_for = LITE_RUNTIME; //CODE_SIZE;
 
 option go_package = "x";
+option optioning6 = "xccc"; // NOT IMPLEMENTED
 
 message SendConfirmCodeParam {
     string Hash = 1;
@@ -14,9 +15,11 @@ message SendConfirmCodeParam {
     bool Resend = 4;
 }
 
+// comment_8 for enum
 enum SendConfirmCodeTypeEnum {
-    SEND_CODE_OK = 0;
-    SEND_CODE_EMAIL = 1;
+    option optioning12_enum_itself = "tttttt";
+    SEND_CODE_OK = 0 [optioning8_enum = true];
+    SEND_CODE_EMAIL = 1 [optioning7 = true , nimbple_sd = 123];; //// comment_7 for enum field
 }
 
 message SendConfirmCodeResponse {
@@ -28,25 +31,28 @@ message SendConfirmCodeResponse {
 }
 
 message SingUpParam {
+    option optioning9_message_itself = true;
     option fipp_op1 = true;
     string Hash = 1;
     string FirstName = 2; //[fl_fix, fl_mot]
     string LastName = 3;
-    string UserName = 4 [dep2 = true , nimbple_sd = 123 , sdf23 = "sdf", op34= LITE];
-    string Phone = 5  [dep2 = true , nimbple_sd = 123];
+    string UserName = 4 [dep2 = true , nimbple_sd = 123 , sdf23 = "sdf", optioning5= LITE];
+    string Phone = 5  [optioning4_msg_field = true , nimbple_sd = 123];
     string Email = 6  [fipp_op1 = true];
 }
-
+//// comment_1 >>> this is not extracted only last comment line
+//// comment_2
 message SingUpResponse {
-    bool Done =1;
-    string ErrorMessage = 2  [deprecated = true];
+    bool Done =1; ////// comment_3
+    string ErrorMessage = 2  [deprecated = true]; /* comment_5 */
 }
 
 //option sdf = "sdfxxxxsd";
-//    [fl_fix, fl_mot]
+//  com_in serverice itself  [fl_fix, fl_mot]
 service RPC_Auth {
-    option rrrx = "tttttt";
-    rpc SendConfirmCode (SendConfirmCodeParam) returns (SendConfirmCodeResponse); // [fl_fix, fl_mot]
-    rpc SingUp (SingUpParam) returns (SingUpResponse) {option vvv = 5;option mmm = "sdfsd"; option kkk = GGGG;} // [fl_fix, fl_mot]
+    option optioning3_rpc_service = "tttttt";
+    option optioning3 = "tttttt";
+    rpc SendConfirmCode (SendConfirmCodeParam) returns (SendConfirmCodeResponse); // inlineing [fl_fix, fl_mot]
+    rpc SingUp (SingUpParam) returns (SingUpResponse) {option optioning1_rpc = 5;option mmm = "sdfsd"; option optioning2_rpc = GGGG;} // [fl_fix, fl_mot]
 }
 
