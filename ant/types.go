@@ -1,13 +1,30 @@
 package ant
 
+// TODO: SHOULD SIMPLIFY TYPES BY BREAKING TYPES TO PB FIELDS AND PROCCESSD FILED
+
 ////////// Service /////////
+type PBService struct {
+	Name        string
+	Methods     []MethodView
+	Comment     string
+	Options     []OptionsView
+}
+
 type ServiceView struct {
+	//PBService
 	Name        string
 	Methods     []MethodView
 	Comment     string
 	Hash        uint32
 	Options     []OptionsView
 	NameStriped string // Without RPC_ prefix
+}
+
+type PBMethod struct {
+	MethodName        string
+	InTypeName        string
+	OutTypeName       string
+	Options           []OptionsView
 }
 
 type MethodView struct {
@@ -24,11 +41,31 @@ type MethodView struct {
 }
 
 ////////// Messages /////////
+type PBMessage struct {
+	Name    string
+	Fields  []FieldView
+	Comment string
+	Options []OptionsView
+}
+
 type MessageView struct {
 	Name    string
 	Fields  []FieldView
 	Comment string
 	Options []OptionsView
+}
+
+type PBField struct {
+	FieldName   string
+	TypeName    string
+	Repeated    bool
+	TagNumber   int
+	isPrimitive bool // is ? numbers, bool, string, bytes or refrence to other custom types
+	GoType      string
+	GoFlatType  string
+	JavaType    string
+	RustType    string
+	Options     []OptionsView
 }
 
 type FieldView struct {
@@ -45,11 +82,25 @@ type FieldView struct {
 }
 
 ////////// Enums /////////
+type PBEnum struct {
+	Name    string
+	Fields  []EnumFieldView
+	Comment string
+	Options []OptionsView
+}
+
 type EnumView struct {
 	Name    string
 	Fields  []EnumFieldView
 	Comment string
 	Options []OptionsView
+}
+
+type EnumField struct {
+	FieldName string
+	TagNumber int
+	PosNumber int
+	Options   []OptionsView
 }
 
 type EnumFieldView struct {
