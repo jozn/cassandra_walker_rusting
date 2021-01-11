@@ -74,7 +74,7 @@ func getGenOut(prtos []*proto.Proto) *GenOut {
 		Enums:    processAllEnumsViews(pbGenOut.PBEnums),
 	}
 
-	makeQEventStruct(genOut)
+	genOut.QEvent = makeQEventStruct(genOut)
 
 	return genOut
 }

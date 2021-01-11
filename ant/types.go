@@ -147,6 +147,7 @@ type QEventPBFields struct {
 	Name     string
 	PBType   string
 	Repeated bool
+	TagNum    int
 }
 
 /////////////////////////////////////////

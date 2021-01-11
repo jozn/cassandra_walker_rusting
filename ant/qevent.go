@@ -61,6 +61,7 @@ func _buildQEventField(pramsMsgName string, gen *GenOut) (out []QEventPBFields) 
 			Name: msgFiled.FieldName    ,
 			PBType:   msgFiled.TypeName,
 			Repeated: msgFiled.Repeated,
+			TagNum: msgFiled.TagNumber,
 		}
 
 		out = append(out, msgEventField)
