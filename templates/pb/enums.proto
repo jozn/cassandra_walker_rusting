@@ -30,39 +30,3 @@ message {{.ServiceName}}Command {
   }
 }
 {{- end}}
-
-//////////// old from Service //////////
-{{range .Services}}
-message {{.NameStriped}}Command_Old {
-  uint32 channel_id = 100;
-
-  oneof sub_command {
-    ECCreateChannel55 CreateChannel55 = 2100;
-  {{- range .Methods}}
-    Q{{.MethodNameStriped}} {{.MethodNameStriped}} = {{.Pos}};
-  {{- end}}
-  }
-
-  {{- range .Methods}}
-  message Q{{.MethodNameStriped}} {}
-  {{- end}}
-
-  message ECCreateChannel55 {
-    uint64 channel_id = 1;
-    string title = 2;
-    string about = 3;
-  }
-}
-{{- end}}
-
-////////////////////////// Old //////////////
-
-
-{{range .Services}}
-enum {{.Name}}_Enum {
-    {{.Name}}_EMPTY = 0;
-  {{- range .Methods}}
-    {{.MethodName}} = {{.Hash}};
-  {{- end}}
-}
-{{- end}}
