@@ -51,7 +51,7 @@ func Run() {
 
 	print("===========================================")
 
-	PrettyPrint(genOut)
+	//PrettyPrint(genOut)
 
 	buildProto(genOut)
 	//buildGo(genOut)
@@ -73,6 +73,8 @@ func getGenOut(prtos []*proto.Proto) *GenOut {
 		Services: processAllServicesViews(pbGenOut.PBServices),
 		Enums:    processAllEnumsViews(pbGenOut.PBEnums),
 	}
+
+	makeQvent(genOut)
 
 	return genOut
 }
