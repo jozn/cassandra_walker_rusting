@@ -4,16 +4,16 @@ syntax = "proto3";
 message {{.ServiceName}}Command {
   oneof sub_command {
   {{- range .Events}}
-    {{.EventName}} {{.EventName}} = {{.TagNum}};
+    Q{{.EventName}} {{.EventName}} = {{.TagNum}};
   {{- end}}
   }
 
   {{- range .Events}}
-  message {{.EventName}} {
+  message Q{{.EventName}} {
     {{- range .Fields -}}
     {{if .Repeated }}
       repeat {{.PBType}} {{.Name}} = {{.TagNum}};
-      {{else}}
+    {{else}}
       {{.PBType}} {{.Name}} = {{.TagNum}};
     {{- end}}
     {{- end}}
