@@ -13,19 +13,25 @@ func processAllMessagesViews(pbMsgs []PBMessage) []MessageView {
 
 		for _, pbField := range pbMsg.PBFields {
 			fieldView := MessageFieldView{
-				PBMessageField: pbField,
-				GoType:         pbTypesToGoType(pbField.TypeName),
-				isPrimitive:    pbTypesIsPrimitive(pbField.TypeName),
-				GoFlatType:     pbTypesToGoFlatTypes(pbField.TypeName),
-				JavaType:       pbTypesToJavaType(pbField.TypeName),
-				RustType:       pbTypesToRustType(pbField.TypeName),
+				FieldName: pbField.FieldName,
+				TypeName:  pbField.TypeName,
+				Repeated:  pbField.Repeated,
+				TagNumber: pbField.TagNumber,
+				Comment:   pbField.Comment,
+				// Processed
+				isPrimitive: pbTypesIsPrimitive(pbField.TypeName),
+				GoType:      pbTypesToGoType(pbField.TypeName),
+				GoFlatType:  pbTypesToGoFlatTypes(pbField.TypeName),
+				JavaType:    pbTypesToJavaType(pbField.TypeName),
+				RustType:    pbTypesToRustType(pbField.TypeName),
 			}
 			msgFields = append(msgFields, fieldView)
 		}
 
 		msgView := MessageView{
-			PBMessage: pbMsg,
-			Fields:    msgFields,
+			Name:    pbMsg.Name,
+			Comment: pbMsg.Comment,
+			Fields:  msgFields,
 		}
 
 		messageViews = append(messageViews, msgView)
@@ -43,7 +49,11 @@ func processAllServicesViews(pbMsgs []PBService) []ServiceView {
 
 		for _, rpc := range pbRpcService.PBMethods {
 			fieldView := MethodView{
-				PBMethod:          rpc,
+				MethodName:  rpc.MethodName,
+				InTypeName:  rpc.InTypeName,
+				OutTypeName: rpc.OutTypeName,
+				Comment:     rpc.Comment,
+				// Processed
 				MethodNameStriped: strings.Trim(rpc.MethodName, rpcServiceStripedName), //  Every rpc prefix is the sample as rpc_service suffix
 				GoInTypeName:      strings.Replace(rpc.InTypeName, ".", "_", -1),       // For nested messages replace . with _
 				GoOutTypeName:     strings.Replace(rpc.OutTypeName, ".", "_", -1),      // For nested messages replace . with _
@@ -56,7 +66,8 @@ func processAllServicesViews(pbMsgs []PBService) []ServiceView {
 		}
 
 		msgView := ServiceView{
-			PBService:   pbRpcService,
+			Name:        pbRpcService.Name,
+			Comment:     pbRpcService.Comment,
 			StripedName: rpcServiceStripedName,
 			Methods:     serviceRpcs,
 		}
@@ -73,14 +84,18 @@ func processAllEnumsViews(pbEnums []PBEnum) (out []EnumView) {
 
 		for _, pbEnum := range pbEnum.PBFields {
 			fieldView := EnumFieldView{
-				PBEnumField: pbEnum,
+				FieldName: pbEnum.FieldName,
+				TagNumber: pbEnum.TagNumber,
+				PosNumber: pbEnum.PosNumber,
+				Comment:   pbEnum.Comment,
 			}
 			enumFields = append(enumFields, fieldView)
 		}
 
 		enumView := EnumView{
-			PBEnum: pbEnum,
-			Fields: enumFields,
+			Name:    pbEnum.Name,
+			Comment: pbEnum.Comment,
+			Fields:  enumFields,
 		}
 
 		out = append(out, enumView)

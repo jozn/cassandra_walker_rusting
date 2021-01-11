@@ -61,13 +61,21 @@ type PBOptions struct {
 
 ////////// Service /////////
 type ServiceView struct {
-	PBService
+	// From PB
+	Name    string
+	Comment string
+	// Processed Fields
 	StripedName string
 	Methods     []MethodView
 }
 
 type MethodView struct {
-	PBMethod
+	// From PB
+	MethodName  string
+	InTypeName  string
+	OutTypeName string
+	Comment     string
+	// Processed Fields
 	MethodNameStriped string // removed Chat, Channel, Group, Direct from rpc name
 	GoInTypeName      string
 	GoOutTypeName     string
@@ -79,12 +87,21 @@ type MethodView struct {
 
 ////////// Messages /////////
 type MessageView struct {
-	PBMessage
+	// From PB
+	Name    string
+	Comment string
+	// Processed Fields
 	Fields []MessageFieldView
 }
 
 type MessageFieldView struct {
-	PBMessageField
+	// From PB
+	FieldName string
+	TypeName  string
+	Repeated  bool
+	TagNumber int
+	Comment   string
+	// Processed Fields
 	isPrimitive bool // is ? numbers, bool, string, bytes or refrence to other custom types
 	GoType      string
 	GoFlatType  string
@@ -94,12 +111,20 @@ type MessageFieldView struct {
 
 ////////// Enums /////////
 type EnumView struct {
-	PBEnum
+	// From PB
+	Name    string
+	Comment string
+	// Processed Fields
 	Fields []EnumFieldView
 }
 
 type EnumFieldView struct {
-	PBEnumField
+	// From PB
+	FieldName string
+	TagNumber int
+	PosNumber int
+	Comment   string
+	// Processed Fields
 }
 
 /////////////////////////////////////////
