@@ -2,17 +2,14 @@ syntax = "proto3";
 
 {{range .QEvent}}
 message {{.ServiceName}}Command {
-  uint32 channel_id = 100;
-
   oneof sub_command {
-    ECCreateChannel55 CreateChannel55 = 2100;
   {{- range .Events}}
-    Q{{.EventName}} {{.EventName}} = {{.TagNum}};
+    {{.EventName}} {{.EventName}} = {{.TagNum}};
   {{- end}}
   }
 
   {{- range .Events}}
-  message Q{{.EventName}} {
+  message {{.EventName}} {
     {{- range .Fields -}}
     {{if .Repeated }}
       repeat {{.PBType}} {{.Name}} = {{.TagNum}};
@@ -22,11 +19,5 @@ message {{.ServiceName}}Command {
     {{- end}}
   }
   {{- end}}
-
-  message ECCreateChannel55 {
-    uint64 channel_id = 1;
-    string title = 2;
-    string about = 3;
-  }
 }
 {{- end}}

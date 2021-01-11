@@ -31,7 +31,7 @@ func makeQEventStruct(gen *GenOut) (qEventServices []QEventService) {
 
 func _buildQEvent(method MethodView, gen *GenOut) QEvent {
 	qevent:= QEvent{
-		EventName: method.MethodNameStriped,
+		EventName: "Q" + method.MethodNameStriped,
 		TagNum:    method.Pos + 5,
 		Fields:    _buildQEventField(method.GoInTypeName, gen),
 	}
