@@ -7,7 +7,7 @@ import (
 )
 
 func buildRust(gen *GenOut) {
-	var OUT_DIR = gen.Dirs.RustOutDir;
+	var OUT_DIR = gen.Dirs.RustOutDir
 	//os.MkdirAll(OUTPUT_DIR_RUST_X, os.ModePerm)
 
 	//writeOutputRust("rpc.rs", buildFromTemplate("rpc.rs", gen))

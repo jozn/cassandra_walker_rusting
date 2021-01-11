@@ -21,8 +21,8 @@ const OUTPUT_DIR_DART = `/hamid/life/flip/flip_app2/lib/ui/`
 func Run() {
 	dirs := DirParam{
 		//ProtoDir:   `/home/hamid/life/_active/backbone/lib/shared/src/protos/proto/`,
-		ProtoDir:   `//hamid/life/_active/pb_walker/play/pb2/`, // play codes
-		RustOutDir: `/home/hamid/life/_active/backbone/lib/shared/src/`,
+		ProtoDir:       `//hamid/life/_active/pb_walker/play/pb2/`, // play codes
+		RustOutDir:     `/home/hamid/life/_active/backbone/lib/shared/src/`,
 		RustProjectDir: `/home/hamid/life/_active/backbone/`,
 	}
 
@@ -67,9 +67,9 @@ func getGenOut(prtos []*proto.Proto) *GenOut {
 	}
 
 	genOut := &GenOut{
-		Messages :processAllMessagesViews(pbGenOut.PBMessages),
-		Services : processAllServicesViews(pbGenOut.PBServices),
-		Enums :processAllEnumsViews(pbGenOut.PBEnums)	,
+		Messages: processAllMessagesViews(pbGenOut.PBMessages),
+		Services: processAllServicesViews(pbGenOut.PBServices),
+		Enums:    processAllEnumsViews(pbGenOut.PBEnums),
 	}
 
 	return genOut

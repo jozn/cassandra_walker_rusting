@@ -31,7 +31,7 @@ type PBMessageField struct {
 	TypeName  string
 	Repeated  bool
 	TagNumber int
-	Comment string
+	Comment   string
 	PBOptions []PBOptions
 }
 
@@ -62,11 +62,13 @@ type PBOptions struct {
 ////////// Service /////////
 type ServiceView struct {
 	PBService
-	Methods []MethodView
+	StripedName string
+	Methods     []MethodView
 }
 
 type MethodView struct {
 	PBMethod
+	MethodNameStriped string // removed Chat, Channel, Group, Direct from rpc name
 	GoInTypeName      string
 	GoOutTypeName     string
 	Hash              uint32
@@ -122,7 +124,7 @@ type GenOut struct {
 }
 
 type DirParam struct {
-	ProtoDir   string
-	RustOutDir string
+	ProtoDir       string
+	RustOutDir     string
 	RustProjectDir string
 }

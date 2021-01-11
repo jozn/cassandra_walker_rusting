@@ -1,6 +1,7 @@
 package ant
 
 import (
+	"regexp"
 	"strings"
 )
 
@@ -38,12 +39,14 @@ func processAllServicesViews(pbMsgs []PBService) []ServiceView {
 
 	for _, pbRpcService := range pbMsgs {
 		var serviceRpcs []MethodView
+		var rpcServiceStripedName = strings.Replace(pbRpcService.Name, "RPC_", "", 1) // RPC_Chat > Chat
 
 		for _, rpc := range pbRpcService.PBMethods {
 			fieldView := MethodView{
 				PBMethod:          rpc,
-				GoInTypeName:      strings.Replace(rpc.InTypeName, ".", "_", -1),  // For nested messages replace . with _
-				GoOutTypeName:     strings.Replace(rpc.OutTypeName, ".", "_", -1), // For nested messages replace . with _
+				MethodNameStriped: strings.Trim(rpc.MethodName, rpcServiceStripedName), //  Every rpc prefix is the sample as rpc_service suffix
+				GoInTypeName:      strings.Replace(rpc.InTypeName, ".", "_", -1),       // For nested messages replace . with _
+				GoOutTypeName:     strings.Replace(rpc.OutTypeName, ".", "_", -1),      // For nested messages replace . with _
 				Hash:              uniqueMethodHash(rpc.MethodName),
 				FullMethodName:    pbRpcService.Name + "." + rpc.MethodName,
 				ParentServiceName: rpc.MethodName,
@@ -53,8 +56,9 @@ func processAllServicesViews(pbMsgs []PBService) []ServiceView {
 		}
 
 		msgView := ServiceView{
-			PBService: pbRpcService,
-			Methods:   serviceRpcs,
+			PBService:   pbRpcService,
+			StripedName: rpcServiceStripedName,
+			Methods:     serviceRpcs,
 		}
 
 		messageViews = append(messageViews, msgView)
@@ -82,5 +86,13 @@ func processAllEnumsViews(pbEnums []PBEnum) (out []EnumView) {
 		out = append(out, enumView)
 	}
 
+	return out
+}
+
+// Old way of rpc prefix removing
+var _rpcMethodPrefixRemover = regexp.MustCompile(`^(Chat|Group|Direct|Channel|Store)`)
+
+func _stripRpcMethodName(rpcName string) string {
+	out := _rpcMethodPrefixRemover.ReplaceAllString(rpcName, "")
 	return out
 }

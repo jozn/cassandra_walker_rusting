@@ -14,7 +14,7 @@ func ExtractAllPBMessages(protos []*proto.Proto) []PBMessage {
 					Name:      pbMsg.Name,
 					Comment:   extractCommentV2(pbMsg.Comment),
 					PBOptions: extractElementOptions(pbMsg.Elements),
-					PBFields: nil, // setting from below code
+					PBFields:  nil, // setting from below code
 				}
 
 				for _, pbEle := range pbMsg.Elements {
@@ -61,8 +61,8 @@ func ExtractAllPBServices(protos []*proto.Proto) []PBService {
 							MethodName:  m.Name,
 							InTypeName:  m.RequestType,
 							OutTypeName: m.ReturnsType,
-							Comment: extractCommentV2(m.InlineComment),
-							PBOptions: extractElementOptions(m.Elements),
+							Comment:     extractCommentV2(m.InlineComment),
+							PBOptions:   extractElementOptions(m.Elements),
 						}
 						serView.PBMethods = append(serView.PBMethods, mv)
 					}
@@ -85,7 +85,7 @@ func ExtractAllPBEnums(protos []*proto.Proto) []PBEnum {
 					Name:      enum.Name,
 					Comment:   extractCommentV2(enum.Comment),
 					PBOptions: extractElementOptions(enum.Elements),
-					PBFields: nil,// setting from below code
+					PBFields:  nil, // setting from below code
 				}
 
 				pos := 0
