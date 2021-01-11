@@ -20,10 +20,11 @@ const OUTPUT_DIR_DART = `/hamid/life/flip/flip_app2/lib/ui/`
 
 func Run() {
 	dirs := DirParam{
-		//ProtoDir:   `/home/hamid/life/_active/backbone/lib/shared/src/protos/proto/`,
-		ProtoDir:       `//hamid/life/_active/pb_walker/play/pb2/`, // play codes
+		ProtoDir: `/home/hamid/life/_active/backbone/lib/shared/src/protos/proto/`,
+		//ProtoDir:       `//hamid/life/_active/pb_walker/play/pb2/`, // play codes
 		RustOutDir:     `/home/hamid/life/_active/backbone/lib/shared/src/`,
 		RustProjectDir: `/home/hamid/life/_active/backbone/`,
+		ProtoOutDir:    `/home/hamid/life/_active/backbone/lib/shared/src/protos/_gen_/`,
 	}
 
 	protoDir := dirs.ProtoDir
@@ -52,6 +53,7 @@ func Run() {
 
 	PrettyPrint(genOut)
 
+	buildProto(genOut)
 	//buildGo(genOut)
 	//buildRust(genOut)
 	//buildDart(genOut)

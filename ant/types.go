@@ -65,7 +65,7 @@ type ServiceView struct {
 	Name    string
 	Comment string
 	// Processed Fields
-	StripedName string
+	NameStriped string
 	Methods     []MethodView
 }
 
@@ -83,6 +83,7 @@ type MethodView struct {
 	FullMethodName    string // RPC_Other.Echo
 	ParentServiceName string // RPC_Other
 	DartMethodName    string // camelCase
+	Pos               int    // Seq number of rpc
 }
 
 ////////// Messages /////////
@@ -127,6 +128,27 @@ type EnumFieldView struct {
 	// Processed Fields
 }
 
+///////////// QEvent //////////////////
+// For transforming RPC_Chat to QEvent
+type QEventService struct {
+	ServiceName string
+	Events      []QEvent
+}
+
+// For building event commands from *Param pb messages
+type QEvent struct {
+	EventName string
+	TagNum    int
+	Fields    []QEventPBFields
+}
+
+// For building Proto buffer from rpc *Param
+type QEventPBFields struct {
+	Name     string
+	PBType   string
+	Repeated bool
+}
+
 /////////////////////////////////////////
 ///////////// Extractor /////////////////
 type PBGenOut struct {
@@ -141,6 +163,8 @@ type GenOut struct {
 	Messages []MessageView
 	Enums    []EnumView
 
+	QEvent []QEventService
+
 	OutGoEnumsStr string
 	OutGoRPCsStr  string
 	OutJavaStr    string
@@ -152,4 +176,5 @@ type DirParam struct {
 	ProtoDir       string
 	RustOutDir     string
 	RustProjectDir string
+	ProtoOutDir    string
 }

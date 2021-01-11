@@ -40,27 +40,29 @@ func processAllMessagesViews(pbMsgs []PBMessage) []MessageView {
 	return messageViews
 }
 
-func processAllServicesViews(pbMsgs []PBService) []ServiceView {
+func processAllServicesViews(pbServices []PBService) []ServiceView {
 	messageViews := make([]ServiceView, 0)
 
-	for _, pbRpcService := range pbMsgs {
+	for _, pbRpcService := range pbServices {
 		var serviceRpcs []MethodView
 		var rpcServiceStripedName = strings.Replace(pbRpcService.Name, "RPC_", "", 1) // RPC_Chat > Chat
 
-		for _, rpc := range pbRpcService.PBMethods {
+		for i, rpc := range pbRpcService.PBMethods {
+			//if strings.rpc.MethodName
 			fieldView := MethodView{
 				MethodName:  rpc.MethodName,
 				InTypeName:  rpc.InTypeName,
 				OutTypeName: rpc.OutTypeName,
 				Comment:     rpc.Comment,
 				// Processed
-				MethodNameStriped: strings.Trim(rpc.MethodName, rpcServiceStripedName), //  Every rpc prefix is the sample as rpc_service suffix
-				GoInTypeName:      strings.Replace(rpc.InTypeName, ".", "_", -1),       // For nested messages replace . with _
-				GoOutTypeName:     strings.Replace(rpc.OutTypeName, ".", "_", -1),      // For nested messages replace . with _
+				MethodNameStriped: strings.TrimPrefix(rpc.MethodName, rpcServiceStripedName), //  Every rpc prefix is the sample as rpc_service suffix
+				GoInTypeName:      strings.Replace(rpc.InTypeName, ".", "_", -1),             // For nested messages replace . with _
+				GoOutTypeName:     strings.Replace(rpc.OutTypeName, ".", "_", -1),            // For nested messages replace . with _
 				Hash:              uniqueMethodHash(rpc.MethodName),
 				FullMethodName:    pbRpcService.Name + "." + rpc.MethodName,
 				ParentServiceName: rpc.MethodName,
 				DartMethodName:    strings.ToLower(rpc.MethodName[0:1]) + rpc.MethodName[1:],
+				Pos:               i + 1,
 			}
 			serviceRpcs = append(serviceRpcs, fieldView)
 		}
@@ -68,7 +70,7 @@ func processAllServicesViews(pbMsgs []PBService) []ServiceView {
 		msgView := ServiceView{
 			Name:        pbRpcService.Name,
 			Comment:     pbRpcService.Comment,
-			StripedName: rpcServiceStripedName,
+			NameStriped: rpcServiceStripedName,
 			Methods:     serviceRpcs,
 		}
 

@@ -185,7 +185,7 @@ func uniqueMethodHash(method string) uint32 {
 	var hash = StrToInt32Hash(method)
 	otherMethod, ok := hashMp[hash]
 	if ok {
-		log.Fatalf("Methods hash collides, methods: (%s) , (%s) -- hash: (%d)", method, otherMethod, hash)
+		log.Fatalf("Events hash collides, methods: (%s) , (%s) -- hash: (%d)", method, otherMethod, hash)
 	}
 	hashMp[hash] = method
 	return hash
