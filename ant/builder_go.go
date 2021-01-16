@@ -17,7 +17,7 @@ func build_old(gen *GenOut) {
 	OutGoRPCsEmptyStr := buildFromTemplate("rpc_empty_imple.tgo", gen)
 	writeOutputGo("pb__gen_ant_empty.go", OutGoRPCsEmptyStr)
 
-	writeOutputGo("pb__gen_enum.proto", buildFromTemplate("enums.proto", gen))
+	writeOutputGo("pb__gen_enum.proto", buildFromTemplate("event.proto", gen))
 	writeOutputGo("RPC_HANDLERS.java", buildFromTemplate("RPC_HANDLERS.java", gen))
 	writeOutputGo("PBFlatTypes.java", buildFromTemplate("PBFlatTypes.java", gen))
 	writeOutputGo("flat.go", buildFromTemplate("flat.tgo", gen))

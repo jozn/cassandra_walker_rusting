@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+package pb;
+
 {{range .QEvent}}
 message {{.ServiceName}}Command {
   oneof sub_command {
@@ -12,12 +14,12 @@ message {{.ServiceName}}Command {
   message Q{{.EventName}} {
     {{- range .Fields -}}
     {{if .Repeated }}
-      repeat {{.PBType}} {{.Name}} = {{.TagNum}};
-    {{else}}
+      repeated {{.PBType}} {{.Name}} = {{.TagNum}};
+    {{- else}}
       {{.PBType}} {{.Name}} = {{.TagNum}};
     {{- end}}
     {{- end}}
   }
   {{- end}}
 }
-{{- end}}
+{{ end}}

@@ -1,6 +1,7 @@
 package ant
 
 import (
+	"fmt"
 	"io/ioutil"
 	"os"
 	_ "os"
@@ -24,7 +25,7 @@ func Run() {
 		//ProtoDir:       `//hamid/life/_active/pb_walker/play/pb2/`, // play codes
 		RustOutDir:     `/home/hamid/life/_active/backbone/lib/shared/src/`,
 		RustProjectDir: `/home/hamid/life/_active/backbone/`,
-		ProtoOutDir:    `/home/hamid/life/_active/backbone/lib/shared/src/protos/_gen_/`,
+		ProtoOutDir:    `/home/hamid/life/_active/backbone/lib/shared/src/protos/proto/`,
 	}
 
 	protoDir := dirs.ProtoDir
@@ -49,13 +50,13 @@ func Run() {
 	genOut := getGenOut(prtos)
 	genOut.Dirs = dirs
 
-	print("===========================================")
+	fmt.Println("===========================================")
 
 	//PrettyPrint(genOut)
 
 	buildProto(genOut)
 	//buildGo(genOut)
-	//buildRust(genOut)
+	buildRust(genOut)
 	//buildDart(genOut)
 
 	err = exec.Command("javafmt").Run()

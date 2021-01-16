@@ -10,7 +10,7 @@ func buildProto(gen *GenOut) {
 	err := os.MkdirAll(OUT_DIR, os.ModePerm)
 	noErr(err)
 
-	_writeOutput("enums.proto", buildFromTemplate("pb/enums.proto", gen), OUT_DIR)
+	_writeOutput("event.proto", buildFromTemplate("pb/event.proto", gen), OUT_DIR)
 
 }
 
