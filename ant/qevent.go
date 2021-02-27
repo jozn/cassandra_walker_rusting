@@ -45,6 +45,7 @@ func makeQEventStruct(gen *GenOut) (qEventServices []QEventService) {
 		if len(qEventsArr) > 0 {
 			qeventSer := QEventService{
 				ServiceName: ser.NameStriped,
+				DefPbFiled: _getQEventDefFields(ser.NameStriped),
 				Events:      qEventsArr,
 			}
 
@@ -99,3 +100,16 @@ func _buildQEventField(pramsMsgName string, gen *GenOut) (out []QEventPBFields) 
 	}
 	return
 }
+
+
+func _getQEventDefFields(mod string) string {
+	out := ""
+	switch mod {
+	case "Channel":
+		out = "uint32 channel_cid = 1;"
+	case "Chat":
+		out = "uint32 profile_cid = 1;"
+	}
+	return out
+}
+

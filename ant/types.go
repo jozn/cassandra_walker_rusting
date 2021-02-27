@@ -132,6 +132,7 @@ type EnumFieldView struct {
 // For transforming RPC_Chat to QEvent
 type QEventService struct {
 	ServiceName string
+	DefPbFiled string // default pb fields for Channels, Chat,... before one of: they are shared among all of sub commands
 	Events      []QEvent
 }
 
@@ -164,7 +165,7 @@ type GenOut struct {
 	Messages []MessageView
 	Enums    []EnumView
 
-	QEvent []QEventService
+	QEvents []QEventService
 
 	OutGoEnumsStr string
 	OutGoRPCsStr  string

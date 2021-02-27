@@ -19,7 +19,7 @@ func buildRust(gen *GenOut) {
 	noErr(err)
 	os.Chdir(gen.Dirs.RustProjectDir)
 	err = exec.Command("cargo", "fmt").Run()
-	noErr(err)
+	//noErr(err)
 	os.Chdir(currDir)
 }
 

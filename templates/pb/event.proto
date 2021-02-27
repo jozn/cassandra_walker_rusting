@@ -1,9 +1,12 @@
 syntax = "proto3";
 
+import "global.proto";
+
 package pb;
 
-{{range .QEvent}}
+{{range .QEvents}}
 message {{.ServiceName}}Command {
+  {{ .DefPbFiled }}
   oneof sub_command {
   {{- range .Events}}
     Q{{.EventName}} {{.EventName}} = {{.TagNum}};
