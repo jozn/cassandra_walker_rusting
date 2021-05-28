@@ -11,92 +11,12 @@ import (
 )
 
 var matchFirstCap = regexp.MustCompile("(.)([A-Z][a-z]+)")
-var matchAllCap   = regexp.MustCompile("([a-z0-9])([A-Z])")
+var matchAllCap = regexp.MustCompile("([a-z0-9])([A-Z])")
 
 func ToSnakeCase(str string) string {
 	snake := matchFirstCap.ReplaceAllString(str, "${1}_${2}")
-	snake  = matchAllCap.ReplaceAllString(snake, "${1}_${2}")
+	snake = matchAllCap.ReplaceAllString(snake, "${1}_${2}")
 	return strings.ToLower(snake)
-}
-
-/////////////// types converters /////////
-func pbTypesToGoType(tp string) string {
-	s := tp
-	switch tp {
-	case "int64", "sint64":
-		s = "int64"
-	case "double":
-		s = "float64"
-	case "float":
-		s = "float32"
-	case "int32", "sint32":
-		s = "int32"
-	case "uint32":
-		s = "uint32"
-	case "uint64":
-		s = "uint64"
-	case "fixed32":
-		s = "uint32"
-	case "fixed64":
-		s = "uint64"
-	case "sfixed32":
-		s = "int32"
-	case "sfixed64":
-		s = "int64"
-	case "bool":
-		s = "bool"
-	case "string":
-		s = "string"
-	case "bytes":
-		s = "[]byte"
-	}
-	return s
-}
-
-func pbTypesToGoFlatTypes(tp string) string {
-	s := tp
-	switch tp {
-	case "int64", "sint64", "int32",
-		"sint32", "uint32", "uint64", "fixed32",
-		"fixed64", "sfixed32", "sfixed64":
-		s = "int"
-	case "double":
-		s = "float64"
-	case "float":
-		s = "float32"
-	case "bool":
-		s = "bool"
-	case "string":
-		s = "string"
-	case "bytes":
-		s = "[]byte"
-	}
-	return s
-}
-
-func pbTypesToJavaType(tp string) string {
-	s := tp
-	switch tp {
-	case "int32", "sint32",
-		"uint32", "fixed32",
-		"sfixed32":
-		s = "int"
-	case "int64", "sint64",
-		"uint64", "fixed64",
-		"sfixed64":
-		s = "long"
-	case "double":
-		s = "double"
-	case "float":
-		s = "float"
-	case "bool":
-		s = "boolean"
-	case "string":
-		s = "String"
-	case "bytes":
-		s = "byte[]" //or  "ByteString" -  PB default converts to this
-	}
-	return s
 }
 
 func pbTypesToRustType(tp string) string {
@@ -161,10 +81,6 @@ func pbTypesIsPrimitive(tp string) bool {
 }
 
 //////////////// Helpers ////////////////////
-func NoErr(err error) {
-	noErr(err)
-}
-
 func noErr(err error) {
 	if err != nil {
 		log.Panic(err)

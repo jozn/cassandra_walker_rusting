@@ -20,9 +20,6 @@ func processAllMessagesViews(pbMsgs []PBMessage) []MessageView {
 				Comment:   pbField.Comment,
 				// Processed
 				isPrimitive: pbTypesIsPrimitive(pbField.TypeName),
-				GoType:      pbTypesToGoType(pbField.TypeName),
-				GoFlatType:  pbTypesToGoFlatTypes(pbField.TypeName),
-				JavaType:    pbTypesToJavaType(pbField.TypeName),
 				RustType:    pbTypesToRustType(pbField.TypeName),
 			}
 			msgFields = append(msgFields, fieldView)
@@ -59,8 +56,6 @@ func processAllServicesViews(pbServices []PBService) []ServiceView {
 				Comment:                rpc.Comment,
 				// Processed
 				MethodNameStriped: strings.TrimPrefix(rpc.MethodName, rpcServiceStripedName), //  Every rpc prefix is the sample as rpc_service suffix
-				GoInTypeName:      strings.Replace(rpc.InTypeName, ".", "_", -1),             // For nested messages replace . with _
-				GoOutTypeName:     strings.Replace(rpc.OutTypeName, ".", "_", -1),            // For nested messages replace . with _
 				Hash:              uniqueMethodHash(rpc.MethodName),
 				FullMethodName:    pbRpcService.Name + "." + rpc.MethodName,
 				ParentServiceName: rpc.MethodName,
@@ -68,9 +63,9 @@ func processAllServicesViews(pbServices []PBService) []ServiceView {
 				Pos:               i + 1,
 			}
 			// Strip .GoInTypeName
-			inName := strings.TrimPrefix(fieldView.GoInTypeName, rpcServiceStripedName)
+			inName := strings.TrimPrefix(fieldView.InTypeName, rpcServiceStripedName)
 			inName = strings.TrimSuffix(inName, "Param")
-			fieldView.GoInTypeNameStriped = inName
+			fieldView.InTypeNameStriped = inName
 
 			serviceRpcs = append(serviceRpcs, fieldView)
 		}

@@ -78,15 +78,13 @@ type MethodView struct {
 	OutTypeName            string
 	Comment                string
 	// Processed Fields
-	MethodNameStriped   string // removed Chat, Channel, Group, Direct from rpc name
-	GoInTypeName        string
-	GoInTypeNameStriped string // Removed server and param - UserEditUserParam >> EditParam
-	GoOutTypeName       string
-	Hash                uint32
-	FullMethodName      string // RPC_Other.Echo
-	ParentServiceName   string // RPC_Other
-	DartMethodName      string // camelCase
-	Pos                 int    // Seq number of rpc
+	MethodNameStriped string // removed Chat, Channel, Group, Direct from rpc name
+	InTypeNameStriped string // Removed server and param - UserEditUserParam >> EditParam >> used in rust param package
+	Hash              uint32
+	FullMethodName    string // RPC_Other.Echo
+	ParentServiceName string // RPC_Other
+	DartMethodName    string // camelCase
+	Pos               int    // Seq number of rpc
 }
 
 ////////// Messages /////////
@@ -107,10 +105,10 @@ type MessageFieldView struct {
 	Comment   string
 	// Processed Fields
 	isPrimitive bool // is ? numbers, bool, string, bytes or refrence to other custom types
-	GoType      string
-	GoFlatType  string
-	JavaType    string
-	RustType    string
+	//GoType      string
+	//GoFlatType  string
+	//JavaType    string
+	RustType string
 }
 
 ////////// Enums /////////
@@ -131,34 +129,9 @@ type EnumFieldView struct {
 	// Processed Fields
 }
 
-///////////// QEvent_DEP //////////////////
-// For transforming RPC_Chat to QEvent_DEP
-// Deprecated: Event Sourcing is Deprected
-// for now keep the codes
-type QEventService_DEP struct {
-	ServiceName string
-	DefPbFiled  string // default pb fields for Channels, Chat,... before one of: they are shared among all of sub commands
-	Events      []QEvent_DEP
-}
-
-// For building event commands from *Param pb messages
-type QEvent_DEP struct {
-	EventName string
-	TagNum    int
-	Fields    []QEventPBFields_DEP
-}
-
-// For building Proto buffer from rpc *Param
-type QEventPBFields_DEP struct {
-	Name     string
-	PBType   string
-	Repeated bool
-	TagNum   int
-}
-
 /////////////////////////////////////////
 ///////////// Extractor /////////////////
-type PBGenOut struct {
+type PBExtract struct {
 	PBServices []PBService
 	PBMessages []PBMessage
 	PBEnums    []PBEnum
@@ -170,12 +143,6 @@ type GenOut struct {
 	Messages []MessageView
 	Enums    []EnumView
 
-	QEvents []QEventService_DEP
-
-	OutGoEnumsStr string
-	OutGoRPCsStr  string
-	OutJavaStr    string
-
 	Dirs DirParam
 }
 
@@ -183,5 +150,4 @@ type DirParam struct {
 	ProtoDir       string
 	RustOutDir     string
 	RustProjectDir string
-	ProtoOutDir    string
 }
