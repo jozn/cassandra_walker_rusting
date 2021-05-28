@@ -71,19 +71,22 @@ type ServiceView struct {
 
 type MethodView struct {
 	// From PB
-	MethodName  string
-	InTypeName  string
-	OutTypeName string
-	Comment     string
+	MethodName             string
+	MethodNameSnake        string
+	MethodNameSnakeStriped string
+	InTypeName             string
+	OutTypeName            string
+	Comment                string
 	// Processed Fields
-	MethodNameStriped string // removed Chat, Channel, Group, Direct from rpc name
-	GoInTypeName      string
-	GoOutTypeName     string
-	Hash              uint32
-	FullMethodName    string // RPC_Other.Echo
-	ParentServiceName string // RPC_Other
-	DartMethodName    string // camelCase
-	Pos               int    // Seq number of rpc
+	MethodNameStriped   string // removed Chat, Channel, Group, Direct from rpc name
+	GoInTypeName        string
+	GoInTypeNameStriped string // Removed server and param - UserEditUserParam >> EditParam
+	GoOutTypeName       string
+	Hash                uint32
+	FullMethodName      string // RPC_Other.Echo
+	ParentServiceName   string // RPC_Other
+	DartMethodName      string // camelCase
+	Pos                 int    // Seq number of rpc
 }
 
 ////////// Messages /////////
@@ -128,23 +131,25 @@ type EnumFieldView struct {
 	// Processed Fields
 }
 
-///////////// QEvent //////////////////
-// For transforming RPC_Chat to QEvent
-type QEventService struct {
+///////////// QEvent_DEP //////////////////
+// For transforming RPC_Chat to QEvent_DEP
+// Deprecated: Event Sourcing is Deprected
+// for now keep the codes
+type QEventService_DEP struct {
 	ServiceName string
-	DefPbFiled string // default pb fields for Channels, Chat,... before one of: they are shared among all of sub commands
-	Events      []QEvent
+	DefPbFiled  string // default pb fields for Channels, Chat,... before one of: they are shared among all of sub commands
+	Events      []QEvent_DEP
 }
 
 // For building event commands from *Param pb messages
-type QEvent struct {
+type QEvent_DEP struct {
 	EventName string
 	TagNum    int
-	Fields    []QEventPBFields
+	Fields    []QEventPBFields_DEP
 }
 
 // For building Proto buffer from rpc *Param
-type QEventPBFields struct {
+type QEventPBFields_DEP struct {
 	Name     string
 	PBType   string
 	Repeated bool
@@ -165,7 +170,7 @@ type GenOut struct {
 	Messages []MessageView
 	Enums    []EnumView
 
-	QEvents []QEventService
+	QEvents []QEventService_DEP
 
 	OutGoEnumsStr string
 	OutGoRPCsStr  string

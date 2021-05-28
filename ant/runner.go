@@ -21,11 +21,11 @@ const OUTPUT_DIR_DART = `/hamid/life/flip/flip_app2/lib/ui/`
 
 func Run() {
 	dirs := DirParam{
-		ProtoDir: `/home/hamid/life/_active/backbone/lib/shared/src/protos/proto/`,
+		ProtoDir: `/home/hamid/life/_active/backbone/lib/shared/src/man/protos/proto/`,
 		//ProtoDir:       `//hamid/life/_active/pb_walker/play/pb2/`, // play codes
-		RustOutDir:     `/home/hamid/life/_active/backbone/lib/shared/src/`,
+		RustOutDir:     `/home/hamid/life/_active/backbone/lib/shared/src/gen/`,
 		RustProjectDir: `/home/hamid/life/_active/backbone/`,
-		ProtoOutDir:    `/home/hamid/life/_active/backbone/lib/shared/src/protos/proto/`,
+		ProtoOutDir:    `/home/hamid/life/_active/backbone/lib/shared/src/man/protos/proto/`,
 	}
 
 	protoDir := dirs.ProtoDir
@@ -52,9 +52,9 @@ func Run() {
 
 	fmt.Println("===========================================")
 
-	//PrettyPrint(genOut)
+	PrettyPrint(genOut)
 
-	buildProto(genOut)
+	buildProto_dep(genOut)
 	//buildGo(genOut)
 	buildRust(genOut)
 	//buildDart(genOut)
@@ -75,7 +75,7 @@ func getGenOut(prtos []*proto.Proto) *GenOut {
 		Enums:    processAllEnumsViews(pbGenOut.PBEnums),
 	}
 
-	genOut.QEvents = makeQEventStruct(genOut)
+	genOut.QEvents = makeQEventStruct_dep(genOut)
 
 	return genOut
 }

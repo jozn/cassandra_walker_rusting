@@ -5,7 +5,8 @@ import (
 	"os"
 )
 
-func buildProto(gen *GenOut) {
+// Deprecated: We no longer support Event Sourcing
+func buildProto_dep(gen *GenOut) {
 	var OUT_DIR = gen.Dirs.ProtoOutDir
 	err := os.MkdirAll(OUT_DIR, os.ModePerm)
 	noErr(err)

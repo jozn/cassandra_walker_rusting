@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func makeQEventStruct(gen *GenOut) (qEventServices []QEventService) {
+func makeQEventStruct_dep(gen *GenOut) (qEventServices []QEventService_DEP) {
 	for i := 0; i < len(gen.Services); i++ {
 		ser := gen.Services[i]
 		// only those rpc services that opt in via qevent_rpc comment
@@ -15,7 +15,7 @@ func makeQEventStruct(gen *GenOut) (qEventServices []QEventService) {
 			continue
 		}
 
-		var qEventsArr []QEvent
+		var qEventsArr []QEvent_DEP
 
 		var eventTagNum int64 = 5
 		for j := 0; j < len(ser.Methods); j++ {
@@ -43,7 +43,7 @@ func makeQEventStruct(gen *GenOut) (qEventServices []QEventService) {
 		}
 
 		if len(qEventsArr) > 0 {
-			qeventSer := QEventService{
+			qeventSer := QEventService_DEP{
 				ServiceName: ser.NameStriped,
 				DefPbFiled: _getQEventDefFields(ser.NameStriped),
 				Events:      qEventsArr,
@@ -53,15 +53,15 @@ func makeQEventStruct(gen *GenOut) (qEventServices []QEventService) {
 		}
 	}
 
-	PrettyPrint(qEventServices)
+	//PrettyPrint(qEventServices)
 	return
 }
 
 var _qeventIdReg = regexp.MustCompile(`qevent_id_(\d+)`)
 
-func _buildQEvent(method MethodView, gen *GenOut) QEvent {
+func _buildQEvent(method MethodView, gen *GenOut) QEvent_DEP {
 
-	qevent := QEvent{
+	qevent := QEvent_DEP{
 		EventName: method.MethodNameStriped,
 		TagNum:    method.Pos, // BEING OVERWRITEN
 		Fields:    _buildQEventField(method.GoInTypeName, gen),
@@ -72,7 +72,7 @@ func _buildQEvent(method MethodView, gen *GenOut) QEvent {
 
 var _msgViewMap = make(map[string]*MessageView)
 
-func _buildQEventField(pramsMsgName string, gen *GenOut) (out []QEventPBFields) {
+func _buildQEventField(pramsMsgName string, gen *GenOut) (out []QEventPBFields_DEP) {
 	// Fill the map
 	if len(_msgViewMap) == 0 {
 		for m := 0; m < len(gen.Messages); m++ {
@@ -89,7 +89,7 @@ func _buildQEventField(pramsMsgName string, gen *GenOut) (out []QEventPBFields) 
 	for g := 0; g < len(msg.Fields); g++ {
 		msgFiled := msg.Fields[g]
 
-		msgEventField := QEventPBFields{
+		msgEventField := QEventPBFields_DEP{
 			Name:     msgFiled.FieldName,
 			PBType:   msgFiled.TypeName,
 			Repeated: msgFiled.Repeated,

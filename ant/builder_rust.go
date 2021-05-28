@@ -3,7 +3,6 @@ package ant
 import (
 	"io/ioutil"
 	"os"
-	"os/exec"
 )
 
 func buildRust(gen *GenOut) {
@@ -18,7 +17,7 @@ func buildRust(gen *GenOut) {
 	currDir, err := os.Getwd()
 	noErr(err)
 	os.Chdir(gen.Dirs.RustProjectDir)
-	err = exec.Command("cargo", "fmt").Run()
+	// err = exec.Command("cargo", "fmt").Run()
 	//noErr(err)
 	os.Chdir(currDir)
 }

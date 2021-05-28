@@ -46,14 +46,17 @@ func processAllServicesViews(pbServices []PBService) []ServiceView {
 	for _, pbRpcService := range pbServices {
 		var serviceRpcs []MethodView
 		var rpcServiceStripedName = strings.Replace(pbRpcService.Name, "RPC_", "", 1) // RPC_Chat > Chat
+		rpcServiceStripedName = strings.Replace(rpcServiceStripedName, "IPC_", "", 1) // IPC_CMaster > CMaster
 
 		for i, rpc := range pbRpcService.PBMethods {
 			//if strings.rpc.MethodName
 			fieldView := MethodView{
-				MethodName:  rpc.MethodName,
-				InTypeName:  rpc.InTypeName,
-				OutTypeName: rpc.OutTypeName,
-				Comment:     rpc.Comment,
+				MethodName:             rpc.MethodName,
+				MethodNameSnake:        ToSnakeCase(rpc.MethodName),
+				MethodNameSnakeStriped: ToSnakeCase(strings.TrimPrefix(rpc.MethodName, rpcServiceStripedName)),
+				InTypeName:             rpc.InTypeName,
+				OutTypeName:            rpc.OutTypeName,
+				Comment:                rpc.Comment,
 				// Processed
 				MethodNameStriped: strings.TrimPrefix(rpc.MethodName, rpcServiceStripedName), //  Every rpc prefix is the sample as rpc_service suffix
 				GoInTypeName:      strings.Replace(rpc.InTypeName, ".", "_", -1),             // For nested messages replace . with _
@@ -64,6 +67,11 @@ func processAllServicesViews(pbServices []PBService) []ServiceView {
 				DartMethodName:    strings.ToLower(rpc.MethodName[0:1]) + rpc.MethodName[1:],
 				Pos:               i + 1,
 			}
+			// Strip .GoInTypeName
+			inName := strings.TrimPrefix(fieldView.GoInTypeName, rpcServiceStripedName)
+			inName = strings.TrimSuffix(inName, "Param")
+			fieldView.GoInTypeNameStriped = inName
+
 			serviceRpcs = append(serviceRpcs, fieldView)
 		}
 

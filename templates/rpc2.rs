@@ -167,6 +167,29 @@ impl common::RpcClient {
 {{end -}}
 }
 
+/////////////////////// Sample codes for act modules ///////
+
+{{range .Services -}}
+#[rustfmt::skip]
+mod {{.NameStriped}}Act{
+    use crate::{act,pb,errors::GenErr};
+
+    struct {{.NameStriped}}Act{}
+    {{$tpe := .NameStriped -}}
+
+    impl {{.NameStriped}}Act {
+/*        
+{{ range .Methods}}
+    pub async fn {{.MethodNameSnakeStriped}}(&self, p: param::{{.GoInTypeNameStriped}}) -> Result<pb::{{ $tpe}},GenErr> {
+        let _ = pb::{{.GoInTypeName}}::default(); 
+        unimplemented!("");
+    }
+{{end}}
+*/
+    }
+}
+{{end -}}
+
 /////////////////////// Code gen for def rpc //////////////
 struct _RRR_ {}
 {{range .Services}}
