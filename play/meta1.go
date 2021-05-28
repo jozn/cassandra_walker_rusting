@@ -1,7 +1,7 @@
 package main
 
 import (
-	helper "../ant"
+	helper "../ant_dep"
 	"github.com/dsymonds/gotoc/parser"
 	"io/ioutil"
 	"strings"

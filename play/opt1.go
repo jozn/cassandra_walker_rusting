@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	helper "../ant"
+	helper "../ant_dep"
 	"github.com/emicklei/proto"
 )
 

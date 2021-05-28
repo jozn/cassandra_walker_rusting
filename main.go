@@ -1,6 +1,6 @@
 package main
 
-import "./ant"
+import "./ant_dep"
 
 func main() {
 	ant.Run()
