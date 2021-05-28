@@ -1,0 +1,415 @@
+[]ant.QEventService{
+    {
+        ServiceName: "Channel",
+        Events:      {
+            {
+                EventName: "CreateChannel",
+                TagNum:    50,
+                Fields:    {
+                    {Name:"channel_cid", PBType:"uint32", Repeated:false, TagNum:1},
+                    {Name:"creator_profile_cid", PBType:"uint32", Repeated:false, TagNum:2},
+                    {Name:"channel_title", PBType:"string", Repeated:false, TagNum:3},
+                    {Name:"user_name", PBType:"string", Repeated:false, TagNum:4},
+                    {Name:"about", PBType:"string", Repeated:false, TagNum:15},
+                },
+            },
+            {
+                EventName: "EditChannel",
+                TagNum:    51,
+                Fields:    {
+                    {Name:"channel_cid", PBType:"uint32", Repeated:false, TagNum:1},
+                    {Name:"by_profile_cid", PBType:"uint32", Repeated:false, TagNum:2},
+                    {Name:"set_new_title", PBType:"bool", Repeated:false, TagNum:3},
+                    {Name:"new_title", PBType:"string", Repeated:false, TagNum:4},
+                    {Name:"set_new_about", PBType:"bool", Repeated:false, TagNum:5},
+                    {Name:"new_about", PBType:"string", Repeated:false, TagNum:6},
+                },
+            },
+            {
+                EventName: "DeleteChannel",
+                TagNum:    52,
+                Fields:    {
+                    {Name:"channel_cid", PBType:"uint32", Repeated:false, TagNum:1},
+                    {Name:"by_profile_cid", PBType:"uint32", Repeated:false, TagNum:2},
+                },
+            },
+            {
+                EventName: "FollowChannel",
+                TagNum:    30,
+                Fields:    {
+                    {Name:"channel_cid", PBType:"uint32", Repeated:false, TagNum:1},
+                    {Name:"by_profile_cid", PBType:"uint32", Repeated:false, TagNum:2},
+                },
+            },
+            {
+                EventName: "UnFollowChannel",
+                TagNum:    31,
+                Fields:    {
+                    {Name:"channel_cid", PBType:"uint32", Repeated:false, TagNum:1},
+                    {Name:"by_profile_cid", PBType:"uint32", Repeated:false, TagNum:2},
+                },
+            },
+            {
+                EventName: "Subscribe",
+                TagNum:    40,
+                Fields:    {
+                    {Name:"channel_cid", PBType:"uint32", Repeated:false, TagNum:1},
+                    {Name:"by_profile_cid", PBType:"uint32", Repeated:false, TagNum:2},
+                },
+            },
+            {
+                EventName: "UnSubscribe",
+                TagNum:    41,
+                Fields:    {
+                    {Name:"channel_cid", PBType:"uint32", Repeated:false, TagNum:1},
+                    {Name:"by_profile_cid", PBType:"uint32", Repeated:false, TagNum:2},
+                },
+            },
+            {
+                EventName: "SendMessage",
+                TagNum:    10,
+                Fields:    {
+                    {Name:"channel_cid", PBType:"uint32", Repeated:false, TagNum:1},
+                    {Name:"message_input", PBType:"NewMessageInput", Repeated:false, TagNum:2},
+                },
+            },
+            {
+                EventName: "EditMessage",
+                TagNum:    11,
+                Fields:    {
+                    {Name:"channel_cid", PBType:"uint32", Repeated:false, TagNum:1},
+                    {Name:"message_gid", PBType:"fixed64", Repeated:false, TagNum:4},
+                    {Name:"by_profile_cid", PBType:"uint32", Repeated:false, TagNum:3},
+                    {Name:"new_text", PBType:"string", Repeated:false, TagNum:2},
+                },
+            },
+            {
+                EventName: "DeleteMessages",
+                TagNum:    12,
+                Fields:    {
+                    {Name:"channel_cid", PBType:"uint32", Repeated:false, TagNum:1},
+                    {Name:"by_profile_cid", PBType:"uint32", Repeated:false, TagNum:2},
+                    {Name:"message_gids", PBType:"uint64", Repeated:true, TagNum:3},
+                },
+            },
+            {
+                EventName: "LikeMessage",
+                TagNum:    200,
+                Fields:    {
+                    {Name:"channel_cid", PBType:"uint32", Repeated:false, TagNum:1},
+                    {Name:"message_gid", PBType:"fixed64", Repeated:false, TagNum:2},
+                    {Name:"by_profile_cid", PBType:"uint32", Repeated:false, TagNum:3},
+                },
+            },
+            {
+                EventName: "UnLikeMessage",
+                TagNum:    201,
+                Fields:    {
+                    {Name:"channel_cid", PBType:"uint32", Repeated:false, TagNum:1},
+                    {Name:"message_gid", PBType:"fixed64", Repeated:false, TagNum:2},
+                    {Name:"by_profile_cid", PBType:"uint32", Repeated:false, TagNum:3},
+                    {Name:"like_gid", PBType:"fixed64", Repeated:false, TagNum:4},
+                },
+            },
+            {
+                EventName: "ReShareMessage",
+                TagNum:    300,
+                Fields:    {
+                    {Name:"channel_cid", PBType:"uint32", Repeated:false, TagNum:1},
+                    {Name:"message_gid", PBType:"fixed64", Repeated:false, TagNum:2},
+                    {Name:"by_profile_cid", PBType:"uint32", Repeated:false, TagNum:3},
+                },
+            },
+            {
+                EventName: "UnReShareMessage",
+                TagNum:    301,
+                Fields:    {
+                    {Name:"channel_cid", PBType:"uint32", Repeated:false, TagNum:1},
+                    {Name:"message_gid", PBType:"fixed64", Repeated:false, TagNum:2},
+                    {Name:"by_profile_cid", PBType:"uint32", Repeated:false, TagNum:3},
+                    {Name:"re_share_gid", PBType:"fixed64", Repeated:false, TagNum:4},
+                },
+            },
+            {
+                EventName: "AddComment",
+                TagNum:    400,
+                Fields:    {
+                    {Name:"channel_cid", PBType:"uint32", Repeated:false, TagNum:1},
+                    {Name:"message_gid", PBType:"fixed64", Repeated:false, TagNum:2},
+                    {Name:"by_profile_cid", PBType:"uint32", Repeated:false, TagNum:3},
+                    {Name:"comment_text", PBType:"string", Repeated:false, TagNum:4},
+                },
+            },
+            {
+                EventName: "DeleteComment",
+                TagNum:    401,
+                Fields:    {
+                    {Name:"channel_cid", PBType:"uint32", Repeated:false, TagNum:1},
+                    {Name:"message_gid", PBType:"fixed64", Repeated:false, TagNum:2},
+                    {Name:"by_profile_cid", PBType:"uint32", Repeated:false, TagNum:3},
+                    {Name:"comment_gid", PBType:"fixed64", Repeated:false, TagNum:4},
+                },
+            },
+            {
+                EventName: "AvatarAdd",
+                TagNum:    80,
+                Fields:    {
+                    {Name:"channel_cid", PBType:"uint32", Repeated:false, TagNum:1},
+                    {Name:"file_id", PBType:"uint64", Repeated:false, TagNum:2},
+                },
+            },
+            {
+                EventName: "AvatarDelete",
+                TagNum:    81,
+                Fields:    {
+                    {Name:"channel_cid", PBType:"uint32", Repeated:false, TagNum:1},
+                },
+            },
+        },
+    },
+    {
+        ServiceName: "Chat",
+        Events:      {
+            {
+                EventName: "SendMessage",
+                TagNum:    10,
+                Fields:    {
+                    {Name:"group_id", PBType:"uint32", Repeated:false, TagNum:1},
+                },
+            },
+            {
+                EventName: "EditMessage",
+                TagNum:    11,
+                Fields:    {
+                    {Name:"group_id", PBType:"uint32", Repeated:false, TagNum:1},
+                },
+            },
+            {
+                EventName: "DeleteMessages",
+                TagNum:    12,
+                Fields:    {
+                    {Name:"group_id", PBType:"uint32", Repeated:false, TagNum:1},
+                },
+            },
+            {
+                EventName: "DeleteHistory",
+                TagNum:    13,
+                Fields:    nil,
+            },
+        },
+    },
+    {
+        ServiceName: "Direct",
+        Events:      {
+            {
+                EventName: "ChangeTitle",
+                TagNum:    10,
+                Fields:    nil,
+            },
+            {
+                EventName: "DeleteDirects",
+                TagNum:    50,
+                Fields:    nil,
+            },
+        },
+    },
+    {
+        ServiceName: "Group",
+        Events:      {
+            {
+                EventName: "CreateGroup",
+                TagNum:    40,
+                Fields:    {
+                    {Name:"group_cid", PBType:"uint32", Repeated:false, TagNum:1},
+                    {Name:"creator_profile_cid", PBType:"uint32", Repeated:false, TagNum:2},
+                    {Name:"group_title", PBType:"string", Repeated:false, TagNum:3},
+                    {Name:"history_viewable", PBType:"bool", Repeated:false, TagNum:8},
+                    {Name:"force_join", PBType:"bool", Repeated:false, TagNum:9},
+                    {Name:"global_search", PBType:"bool", Repeated:false, TagNum:17},
+                    {Name:"about", PBType:"string", Repeated:false, TagNum:15},
+                    {Name:"user_name", PBType:"string", Repeated:false, TagNum:4},
+                },
+            },
+            {
+                EventName: "EditGroup",
+                TagNum:    41,
+                Fields:    {
+                    {Name:"group_cid", PBType:"uint32", Repeated:false, TagNum:1},
+                    {Name:"by_profile_cid", PBType:"uint32", Repeated:false, TagNum:2},
+                    {Name:"set_new_title", PBType:"bool", Repeated:false, TagNum:3},
+                    {Name:"new_title", PBType:"string", Repeated:false, TagNum:4},
+                    {Name:"set_new_about", PBType:"bool", Repeated:false, TagNum:5},
+                    {Name:"new_about", PBType:"string", Repeated:false, TagNum:6},
+                },
+            },
+            {
+                EventName: "DeleteGroup",
+                TagNum:    42,
+                Fields:    {
+                    {Name:"group_cid", PBType:"uint32", Repeated:false, TagNum:1},
+                    {Name:"by_profile_cid", PBType:"uint32", Repeated:false, TagNum:2},
+                },
+            },
+            {
+                EventName: "JoinGroup",
+                TagNum:    50,
+                Fields:    {
+                    {Name:"group_cid", PBType:"uint32", Repeated:false, TagNum:1},
+                    {Name:"new_member_profile_cid", PBType:"uint32", Repeated:false, TagNum:3},
+                },
+            },
+            {
+                EventName: "LeaveGroup",
+                TagNum:    51,
+                Fields:    {
+                    {Name:"group_cid", PBType:"uint32", Repeated:false, TagNum:1},
+                    {Name:"member_profile_cid", PBType:"uint32", Repeated:false, TagNum:3},
+                },
+            },
+            {
+                EventName: "AddMember",
+                TagNum:    52,
+                Fields:    {
+                    {Name:"group_cid", PBType:"uint32", Repeated:false, TagNum:1},
+                    {Name:"by_profile_cid", PBType:"uint32", Repeated:false, TagNum:2},
+                    {Name:"new_member_profile_cid", PBType:"uint32", Repeated:false, TagNum:3},
+                },
+            },
+            {
+                EventName: "SendMessage",
+                TagNum:    10,
+                Fields:    {
+                    {Name:"group_id", PBType:"uint32", Repeated:false, TagNum:1},
+                    {Name:"message_input", PBType:"NewMessageInput", Repeated:false, TagNum:2},
+                },
+            },
+            {
+                EventName: "EditMessage",
+                TagNum:    11,
+                Fields:    {
+                    {Name:"group_id", PBType:"uint32", Repeated:false, TagNum:1},
+                    {Name:"by_profile_cid", PBType:"uint32", Repeated:false, TagNum:3},
+                    {Name:"new_text", PBType:"string", Repeated:false, TagNum:2},
+                },
+            },
+            {
+                EventName: "DeleteMessages",
+                TagNum:    12,
+                Fields:    {
+                    {Name:"group_cid", PBType:"uint32", Repeated:false, TagNum:1},
+                    {Name:"by_profile_cid", PBType:"uint32", Repeated:false, TagNum:2},
+                    {Name:"message_ids", PBType:"uint64", Repeated:true, TagNum:3},
+                },
+            },
+            {
+                EventName: "DeleteHistory",
+                TagNum:    13,
+                Fields:    nil,
+            },
+            {
+                EventName: "PinMessage",
+                TagNum:    600,
+                Fields:    {
+                    {Name:"group_id", PBType:"uint32", Repeated:false, TagNum:1},
+                },
+            },
+            {
+                EventName: "UnPinMessage",
+                TagNum:    601,
+                Fields:    {
+                    {Name:"group_id", PBType:"uint32", Repeated:false, TagNum:1},
+                },
+            },
+            {
+                EventName: "AvatarAdd",
+                TagNum:    80,
+                Fields:    {
+                    {Name:"group_id", PBType:"uint32", Repeated:false, TagNum:1},
+                },
+            },
+            {
+                EventName: "AvatarDelete",
+                TagNum:    81,
+                Fields:    {
+                    {Name:"group_id", PBType:"uint32", Repeated:false, TagNum:1},
+                },
+            },
+            {
+                EventName: "ReportGroup",
+                TagNum:    82,
+                Fields:    nil,
+            },
+        },
+    },
+    {
+        ServiceName: "Profile",
+        Events:      {
+            {
+                EventName: "SetSettings",
+                TagNum:    10,
+                Fields:    nil,
+            },
+        },
+    },
+    {
+        ServiceName: "User",
+        Events:      {
+            {
+                EventName: "RegisterUser",
+                TagNum:    100,
+                Fields:    {
+                    {Name:"user_cid", PBType:"uint32", Repeated:false, TagNum:1},
+                    {Name:"first_name", PBType:"string", Repeated:false, TagNum:2},
+                    {Name:"last_name", PBType:"string", Repeated:false, TagNum:3},
+                    {Name:"phone", PBType:"string", Repeated:false, TagNum:15},
+                    {Name:"created_time", PBType:"uint32", Repeated:false, TagNum:5},
+                },
+            },
+            {
+                EventName: "EditUser",
+                TagNum:    101,
+                Fields:    {
+                    {Name:"user_cid", PBType:"uint32", Repeated:false, TagNum:1},
+                    {Name:"set_new_name", PBType:"bool", Repeated:false, TagNum:3},
+                    {Name:"new_first_name", PBType:"string", Repeated:false, TagNum:4},
+                    {Name:"new_last_name", PBType:"string", Repeated:false, TagNum:6},
+                },
+            },
+            {
+                EventName: "DeleteSendCode",
+                TagNum:    800,
+                Fields:    {
+                    {Name:"Resend", PBType:"bool", Repeated:false, TagNum:1},
+                },
+            },
+            {
+                EventName: "DeleteConfirmCode",
+                TagNum:    801,
+                Fields:    {
+                    {Name:"code", PBType:"string", Repeated:false, TagNum:3},
+                },
+            },
+            {
+                EventName: "DeleteUser",
+                TagNum:    802,
+                Fields:    nil,
+            },
+            {
+                EventName: "ChangePhoneNumber",
+                TagNum:    300,
+                Fields:    nil,
+            },
+            {
+                EventName: "RemoveSession",
+                TagNum:    400,
+                Fields:    nil,
+            },
+            {
+                EventName: "RemoveOtherSessions",
+                TagNum:    401,
+                Fields:    nil,
+            },
+        },
+    },
+} 
+===========================================
