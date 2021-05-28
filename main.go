@@ -1,9 +1,9 @@
 package main
 
-import "./ant_dep"
+import "./src"
 
 func main() {
-	ant.Run()
+	src.Run()
 }
 
 // todo
